@@ -6,10 +6,13 @@ A desktop application that centralizes client marketing knowledge, runs
 research (starting with Reddit), and generates on-brand content through
 Claude — with every AI request flowing through one auditable service.
 
-**Status: first usable version.** The backend foundation, the client
-intelligence structure, Reddit research (`RedditService`, real and working),
-and a plain desktop GUI are all in place. AI Writer, Knowledge Extraction,
-and Markdown Export are still `TODO` — see [Pending work](#pending-work).
+**Status: Reddit Research is the primary, polished workflow.** Type a
+client and a topic, click Run, get back a real report — ranked, deduped,
+spam-filtered threads with extracted questions/pain points/buying
+signals/competitor mentions, saved permanently to that client's knowledge
+base. AI Writer, Knowledge Extraction, and Markdown Export are intentionally
+still `TODO` — this iteration deepened one workflow instead of adding more
+half-finished ones. See [Pending work](#pending-work).
 
 Launch it with:
 
@@ -76,7 +79,7 @@ docs/        # the three doc packs above
 
 See [`PROJECT_TREE.md`](PROJECT_TREE.md) for the full, current file tree.
 
-## Reddit Research (v1)
+## Reddit Research (v2 — the primary workflow)
 
 `backend/reddit/RedditService` implements `ResearchService` on top of
 [PRAW](https://praw.readthedocs.io/) — not the legacy `scrape.py` referenced
@@ -85,16 +88,24 @@ being requested repeatedly.
 
 Pipeline for `RedditService.research(client_id, topic)`:
 
-1. Load the client's `seo.json` keywords and `competitors.json` names.
+1. Load the client's `seo.json` keywords, `competitors.json` names, and
+   display name.
 2. Expand the topic into a few keyword-paired search queries.
-3. Search Reddit via PRAW, normalize posts + top-level comments.
-4. Deduplicate (exact id + near-duplicate titles) and filter spam.
-5. Score relevance (keyword overlap + engagement) and drop low scorers.
+3. Search Reddit via PRAW for each query — **posts only, no comments yet**
+   (the speed-critical step; see below). One failing query is logged and
+   skipped rather than aborting the run; it only raises if every query
+   fails.
+4. Deduplicate (exact id + near-duplicate titles), filter spam, score
+   relevance (keyword overlap + engagement — title/selftext only), and keep
+   only the top `max_results` (10 by default).
+5. **Only now** fetch comments — for those ≤10 surviving posts, not the
+   full fetch (which can be 50-100+ posts across 4 query variants).
 6. Extract customer questions, pain points, buying signals, and competitor
-   mentions from every surviving post.
-7. Return a `RedditResearchReport`; `run_reddit_research` (the
-   `ResearchService`-required method) additionally persists a
-   `ResearchSession` row summarizing the run.
+   mentions from every surviving post (now with comments attached).
+7. `run_and_report` renders the result as Markdown, saves it into
+   `clients/<slug>/knowledge/reddit.md`, and persists a `ResearchSession`
+   row. `run_reddit_research` (the bare `ResearchService`-required method)
+   is a thin wrapper around it for interface compliance.
 
 Requires `REDDIT_CLIENT_ID` / `REDDIT_CLIENT_SECRET` (see `.env.example`) —
 get them at https://www.reddit.com/prefs/apps. Everything is unit-tested
@@ -104,16 +115,28 @@ credentials are actually set — this project's own environment can't reach
 `reddit.com` at all (network policy), so that test has never been run here,
 only designed to run on a developer's machine.
 
-## Desktop GUI (v1)
+**Every research run permanently adds to the client's knowledge base.** The
+first run replaces the scaffolded "Status: empty" placeholder in
+`knowledge/reddit.md`; every run after that appends a new dated section —
+it's a running research log, not a one-off snapshot that gets overwritten.
+
+## Desktop GUI (v2)
 
 `python -m frontend.app` opens a plain Tkinter window: a client list (from
-`clients/`), a marketing tool list, a topic field, and a Run button. Not
-styled — this version optimizes for "does it work," not "does it look
-good."
+`clients/`), a marketing tool list, a topic field, and a Run button. Still
+not styled — this version optimizes for "does it work well," not "does it
+look good."
 
-Only **Reddit Research** is wired to a real backend call today; the other
-three tools are listed (so the team can see what's coming) but clicking Run
+Only **Reddit Research** is wired to a real backend call; the other three
+tools are listed (so the team can see what's coming) but clicking Run
 reports plainly that they're not implemented yet, rather than faking output.
+
+Research runs on a background thread — the window stays responsive (and the
+Run button is visibly disabled) for however long the search takes, instead
+of freezing. Pressing Enter in the topic field runs it too. The output pane
+shows the full rendered report (every kept thread, its questions/pain
+points/buying signals/competitor mentions, and a link), not just a one-line
+count — and the status bar reports how long the run took.
 
 ## Architectural decisions
 
@@ -209,6 +232,43 @@ convention. Reddit's own ecosystem (PRAW docs, tutorials) universally uses
 unprefixed `REDDIT_CLIENT_ID`/`REDDIT_CLIENT_SECRET`, so `RedditClient` reads
 those directly — it doesn't depend on `AppConfig` at all, which also keeps
 it trivially constructible in tests without touching the config system.
+
+**Why comment-fetching is deferred until after ranking.** Fetching a post's
+comments is its own PRAW network round trip — the single biggest cost in a
+Reddit search. The original v1 fetched comments for every post returned by
+every query variant (up to ~100 network calls for a 4-query, 25-post-limit
+search). `select_top_posts` now ranks on title/selftext alone (comments were
+never used for relevance scoring anyway) and `fetch_top_comments` is only
+called for the ≤10 posts that survive — typically cutting comment-fetch
+calls by 10x+ with no loss of ranking accuracy.
+
+**Why one failing search query doesn't fail the whole run.** With 4 query
+variants per topic, a single transient PRAW/network error used to abort
+everything and lose posts the other 3 queries had already found.
+`_search_all_queries` now catches `RedditSearchError` per query, logs and
+skips it, and only re-raises if every single query failed — partial results
+are still useful; losing them to one blip isn't worth it.
+
+**Why the report is Markdown text, not a data structure the GUI has to
+render.** `render_markdown_report` produces the exact text both the GUI's
+output pane and `knowledge/reddit.md` show — one rendering path, so the
+report a marketer reads on-screen is byte-for-byte what gets saved for
+later. No templating engine, no second format to keep in sync.
+
+**Why `knowledge/reddit.md` accumulates instead of getting overwritten.**
+A knowledge base that erases yesterday's research every time someone runs
+a new query isn't a knowledge base. `save_report_to_knowledge_base` detects
+the scaffolded placeholder (replaces it once) and otherwise appends a new
+dated section — the file is a running log a team member can scroll through.
+
+**Why Run happens on a background thread.** Tkinter has one UI thread; a
+network-bound PRAW search taking a few seconds would otherwise freeze
+window redraws entirely (appearing as "Not Responding"). `_on_run_click`
+now starts a daemon thread and polls a thread-safe queue via `after()` —
+the standard safe pattern for getting a background result back onto a Tk
+widget. The Run button disables for the duration and a double-click/repeat
+Enter while running is ignored outright, rather than queuing a second
+concurrent search.
 
 **Why Tkinter for the GUI.** It's stdlib (no new packaging dependency),
 ships with the Windows/macOS Python installers the Engineering Pack's

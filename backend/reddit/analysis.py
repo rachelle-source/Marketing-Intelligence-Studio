@@ -223,44 +223,75 @@ def detect_competitor_mentions(post: RedditPost, competitor_names: Sequence[str]
     return found
 
 
+def select_top_posts(
+    posts: list[RedditPost],
+    topic: str,
+    keywords: Sequence[str] = (),
+    min_relevance: float = DEFAULT_MIN_RELEVANCE,
+    max_results: int | None = None,
+) -> tuple[list[tuple[RedditPost, float]], int, int]:
+    """Dedup -> spam filter -> score -> rank, WITHOUT extraction.
+
+    Split out from :func:`analyze_posts` so a caller can rank cheaply (post
+    title/selftext only — no comments needed) and only pay the cost of
+    fetching comments for the small number of posts that make the cut. See
+    ``RedditService.research`` for why that ordering matters for speed.
+
+    Returns ``([(post, relevance_score), ...], duplicates_removed, spam_removed)``,
+    sorted by relevance descending, truncated to ``max_results`` if given.
+    """
+    deduped, duplicates_removed = deduplicate_posts(posts)
+    kept, spam_removed = filter_spam(deduped)
+
+    scored = [(post, score_relevance(post, topic, keywords)) for post in kept]
+    scored = [(post, score) for post, score in scored if score >= min_relevance]
+    scored.sort(key=lambda pair: pair[1], reverse=True)
+    if max_results is not None:
+        scored = scored[:max_results]
+
+    logger.info(
+        "Ranked %d post(s): %d duplicates removed, %d spam removed, %d selected",
+        len(posts),
+        duplicates_removed,
+        spam_removed,
+        len(scored),
+    )
+    return scored, duplicates_removed, spam_removed
+
+
+def build_analyzed_post(
+    post: RedditPost, relevance_score: float, competitor_names: Sequence[str] = ()
+) -> AnalyzedPost:
+    """Run the extraction passes (questions/pain points/buying signals/
+    competitor mentions) for one post. Uses whatever comments are already
+    attached to ``post`` — fetch them first if you want comment-derived signal.
+    """
+    return AnalyzedPost(
+        post=post,
+        relevance_score=relevance_score,
+        questions=extract_questions(post),
+        pain_points=extract_pain_points(post),
+        buying_signals=detect_buying_signals(post),
+        competitor_mentions=detect_competitor_mentions(post, competitor_names),
+    )
+
+
 def analyze_posts(
     posts: list[RedditPost],
     topic: str,
     keywords: Sequence[str] = (),
     competitor_names: Sequence[str] = (),
     min_relevance: float = DEFAULT_MIN_RELEVANCE,
+    max_results: int | None = None,
 ) -> tuple[list[AnalyzedPost], int, int]:
-    """Run the full quality pass: dedup -> spam filter -> score -> extract.
+    """Run the full quality pass in one call: rank, then extract for every result.
 
-    Returns ``(analyzed_posts, duplicates_removed, spam_removed)``, sorted by
-    relevance score descending. Posts scoring below ``min_relevance`` are
-    dropped — the goal is a shorter, higher-signal list, not a longer one.
+    Convenience wrapper over :func:`select_top_posts` + :func:`build_analyzed_post`
+    for callers that already have comments attached to every post (e.g. tests,
+    or any future caller that doesn't need the comment-fetch deferral).
     """
-    deduped, duplicates_removed = deduplicate_posts(posts)
-    kept, spam_removed = filter_spam(deduped)
-
-    analyzed: list[AnalyzedPost] = []
-    for post in kept:
-        relevance = score_relevance(post, topic, keywords)
-        if relevance < min_relevance:
-            continue
-        analyzed.append(
-            AnalyzedPost(
-                post=post,
-                relevance_score=relevance,
-                questions=extract_questions(post),
-                pain_points=extract_pain_points(post),
-                buying_signals=detect_buying_signals(post),
-                competitor_mentions=detect_competitor_mentions(post, competitor_names),
-            )
-        )
-
-    analyzed.sort(key=lambda a: a.relevance_score, reverse=True)
-    logger.info(
-        "Analyzed %d post(s): %d duplicates removed, %d spam removed, %d below relevance threshold",
-        len(posts),
-        duplicates_removed,
-        spam_removed,
-        len(kept) - len(analyzed),
+    scored, duplicates_removed, spam_removed = select_top_posts(
+        posts, topic, keywords, min_relevance, max_results
     )
+    analyzed = [build_analyzed_post(post, score, competitor_names) for post, score in scored]
     return analyzed, duplicates_removed, spam_removed

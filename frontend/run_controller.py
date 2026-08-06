@@ -7,6 +7,7 @@ only module that imports `tkinter`.
 from __future__ import annotations
 
 import logging
+import time
 from dataclasses import dataclass
 
 from backend.core.errors import AppError
@@ -23,6 +24,7 @@ class RunResult:
 
     success: bool
     message: str
+    duration_seconds: float | None = None
 
 
 class RunController:
@@ -53,12 +55,17 @@ class RunController:
 
     def _run_reddit_research(self, client: ClientSummary, topic: str) -> RunResult:
         logger.info("Running Reddit Research for client=%s topic=%r", client.slug, topic)
+        started = time.perf_counter()
         try:
-            session = self._reddit_service.run_reddit_research(client.slug, topic)
+            _session, report_markdown = self._reddit_service.run_and_report(client.slug, topic)
         except AppError as exc:
+            elapsed = time.perf_counter() - started
             logger.warning("Reddit research failed for client=%s topic=%r: %s", client.slug, topic, exc)
-            return RunResult(False, f"Reddit research failed: {exc.message}")
+            return RunResult(False, f"Reddit research failed: {exc.message}", elapsed)
         except Exception as exc:  # noqa: BLE001 - last line of defense before the UI
+            elapsed = time.perf_counter() - started
             logger.exception("Unexpected error running Reddit research for client=%s", client.slug)
-            return RunResult(False, f"Unexpected error: {exc}")
-        return RunResult(True, session.summary)
+            return RunResult(False, f"Unexpected error: {exc}", elapsed)
+
+        elapsed = time.perf_counter() - started
+        return RunResult(True, report_markdown, elapsed)

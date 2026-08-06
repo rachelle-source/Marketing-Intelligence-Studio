@@ -11,6 +11,13 @@ For unit tests, construct :class:`RedditClient` with the ``reddit=`` kwarg
 pointing at a fake/mock object shaped like ``praw.Reddit`` — this bypasses
 credential loading entirely and never touches the network. See
 ``tests/test_reddit_client.py``.
+
+Speed note: ``search_posts`` deliberately does NOT fetch comments — listing
+search results doesn't need them, and fetching comments for every result is
+the single biggest cost in a Reddit search (one extra network round trip per
+post). Comments are fetched separately, via :meth:`fetch_top_comments`, only
+for the small number of posts that actually survive ranking — see
+:meth:`backend.reddit.service.RedditService.research`.
 """
 
 from __future__ import annotations
@@ -72,9 +79,12 @@ class RedditClient:
         query: str,
         subreddits: Sequence[str] | None = None,
         post_limit: int = DEFAULT_POST_LIMIT,
-        comment_limit: int = DEFAULT_COMMENT_LIMIT,
     ) -> list[RedditPost]:
-        """Search one or more subreddits by keyword and return normalized posts."""
+        """Search one or more subreddits by keyword and return normalized posts.
+
+        Posts come back with an empty ``top_comments`` — call
+        :meth:`fetch_top_comments` for the ones you actually keep.
+        """
         reddit = self._get_reddit()
         names = list(subreddits) if subreddits else [DEFAULT_SUBREDDIT]
         posts: list[RedditPost] = []
@@ -83,7 +93,7 @@ class RedditClient:
             try:
                 subreddit = reddit.subreddit(name)
                 for submission in subreddit.search(query, limit=post_limit):
-                    posts.append(self._normalize_post(submission, comment_limit))
+                    posts.append(self._normalize_post(submission))
             except PRAWException as exc:
                 logger.error("PRAW error searching r/%s for %r: %s", name, query, exc)
                 raise RedditSearchError(
@@ -101,23 +111,35 @@ class RedditClient:
         )
         return posts
 
-    def _normalize_post(self, submission: Any, comment_limit: int) -> RedditPost:
-        top_comments: list[RedditComment] = []
-        try:
-            submission.comments.replace_more(limit=0)
-            for comment in list(submission.comments)[:comment_limit]:
-                top_comments.append(
-                    RedditComment(
-                        id=comment.id,
-                        author=str(comment.author) if comment.author else None,
-                        body=comment.body,
-                        score=comment.score,
-                        created_utc=datetime.fromtimestamp(comment.created_utc, tz=timezone.utc),
-                    )
-                )
-        except (PRAWException, PrawcoreException) as exc:
-            logger.warning("Could not load comments for post %s: %s", submission.id, exc)
+    def fetch_top_comments(
+        self, post_id: str, comment_limit: int = DEFAULT_COMMENT_LIMIT
+    ) -> list[RedditComment]:
+        """Fetch top-level comments for a single post, by id.
 
+        Never raises — a comment-fetch failure for one post shouldn't sink a
+        research run; it's logged and an empty list is returned.
+        """
+        if comment_limit <= 0:
+            return []
+        reddit = self._get_reddit()
+        try:
+            submission = reddit.submission(id=post_id)
+            submission.comments.replace_more(limit=0)
+            return [
+                RedditComment(
+                    id=comment.id,
+                    author=str(comment.author) if comment.author else None,
+                    body=comment.body,
+                    score=comment.score,
+                    created_utc=datetime.fromtimestamp(comment.created_utc, tz=timezone.utc),
+                )
+                for comment in list(submission.comments)[:comment_limit]
+            ]
+        except (PRAWException, PrawcoreException) as exc:
+            logger.warning("Could not load comments for post %s: %s", post_id, exc)
+            return []
+
+    def _normalize_post(self, submission: Any) -> RedditPost:
         return RedditPost(
             id=submission.id,
             subreddit=str(submission.subreddit),
@@ -129,5 +151,5 @@ class RedditClient:
             score=submission.score,
             num_comments=submission.num_comments,
             created_utc=datetime.fromtimestamp(submission.created_utc, tz=timezone.utc),
-            top_comments=top_comments,
+            top_comments=[],
         )

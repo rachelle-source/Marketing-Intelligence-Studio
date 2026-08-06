@@ -60,3 +60,10 @@ class FakeReddit:
         if name not in self._subreddits:
             self._subreddits[name] = FakeSubreddit(name)
         return self._subreddits[name]
+
+    def submission(self, id: str) -> FakeSubmission:  # noqa: A002 - matches PRAW's kwarg name
+        for subreddit in self._subreddits.values():
+            for submission in subreddit._submissions:
+                if submission.id == id:
+                    return submission
+        raise KeyError(f"no fake submission with id={id!r}")

@@ -1,5 +1,4 @@
 from backend.core.errors import ServiceError
-from backend.models.research import ResearchSession
 from frontend.client_discovery import ClientSummary
 from frontend.run_controller import RunController
 from frontend.tools import ToolDefinition
@@ -25,27 +24,16 @@ UNAVAILABLE_TOOL = ToolDefinition(
 
 
 class FakeRedditService:
-    def __init__(self, session=None, error: Exception | None = None) -> None:
-        self._session = session
+    def __init__(self, markdown: str | None = None, error: Exception | None = None) -> None:
+        self._markdown = markdown
         self._error = error
         self.calls: list[tuple[str, str]] = []
 
-    def run_reddit_research(self, client_id: str, query: str):
-        self.calls.append((client_id, query))
+    def run_and_report(self, client_id: str, topic: str):
+        self.calls.append((client_id, topic))
         if self._error is not None:
             raise self._error
-        return self._session
-
-
-def make_session(summary: str = "3 relevant post(s) found.") -> ResearchSession:
-    return ResearchSession(
-        id="s1",
-        client_id="kore",
-        project_id=None,
-        source_type="reddit",
-        query="pricing",
-        summary=summary,
-    )
+        return (object(), self._markdown)
 
 
 def test_no_client_selected() -> None:
@@ -77,15 +65,25 @@ def test_reddit_research_without_topic_asks_for_one() -> None:
     assert "topic" in result.message.lower()
 
 
-def test_reddit_research_success_returns_session_summary() -> None:
-    fake_service = FakeRedditService(session=make_session("5 relevant post(s) found."))
+def test_reddit_research_success_returns_full_report_markdown() -> None:
+    fake_service = FakeRedditService(markdown="## Reddit Research — \"pricing\"\n\nfull report here")
     controller = RunController(fake_service)
 
     result = controller.run(CLIENT, REDDIT_TOOL, "pricing")
 
     assert result.success is True
-    assert result.message == "5 relevant post(s) found."
+    assert "full report here" in result.message
     assert fake_service.calls == [("kore", "pricing")]
+
+
+def test_reddit_research_reports_duration() -> None:
+    fake_service = FakeRedditService(markdown="report")
+    controller = RunController(fake_service)
+
+    result = controller.run(CLIENT, REDDIT_TOOL, "pricing")
+
+    assert result.duration_seconds is not None
+    assert result.duration_seconds >= 0
 
 
 def test_reddit_research_structured_error_is_surfaced() -> None:
@@ -96,6 +94,7 @@ def test_reddit_research_structured_error_is_surfaced() -> None:
 
     assert result.success is False
     assert "boom" in result.message
+    assert result.duration_seconds is not None
 
 
 def test_reddit_research_unexpected_error_does_not_crash() -> None:

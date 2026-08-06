@@ -20,21 +20,27 @@ Marketing-Intelligence-Studio/
 │   │   ├── knowledge_service.py    KnowledgeService      — TODO: implementation
 │   │   ├── export_service.py       ExportService         — TODO: Markdown exporter, then DOCX/HTML/PDF
 │   │   └── settings_service.py     SettingsService       — implemented (SQLite-backed)
-│   ├── reddit/                  Reddit research — implemented (PRAW-backed), v1
-│   │   ├── client.py               thin, mockable PRAW wrapper
+│   ├── reddit/                  Reddit research — implemented (PRAW-backed), v2
+│   │   ├── client.py               mockable PRAW wrapper: fast post search + deferred
+│   │   │                           per-post fetch_top_comments (speed optimization)
 │   │   ├── query_builder.py        topic -> keyword-aware search queries
-│   │   ├── analysis.py             dedup, spam filter, relevance, extraction
-│   │   ├── client_context.py       loads a client's seo.json/competitors.json
-│   │   ├── service.py              RedditService (ResearchService impl)
+│   │   ├── analysis.py             dedup, spam filter, relevance ranking (select_top_posts),
+│   │   │                           extraction (build_analyzed_post)
+│   │   ├── client_context.py       loads a client's profile/seo/competitors.json
+│   │   ├── report.py               renders RedditResearchReport -> Markdown; saves/appends
+│   │   │                           into clients/<slug>/knowledge/reddit.md
+│   │   ├── service.py              RedditService (ResearchService impl); per-query failure
+│   │   │                           isolation; run_and_report() -> (session, markdown)
 │   │   ├── models.py               shared normalized data model
 │   │   └── errors.py               RedditCredentialsError / RedditSearchError
 │   └── lint/                    TODO: placeholder for the existing draft linter
 │
-├── frontend/                    Desktop GUI (Tkinter) — v1, plain but working
+├── frontend/                    Desktop GUI (Tkinter) — v2, plain but working
 │   ├── client_discovery.py         reads clients/<slug>/profile.json
 │   ├── tools.py                    marketing tool registry
 │   ├── run_controller.py           (client, tool, topic) -> backend calls, Tk-free
-│   ├── main_window.py              the Tk window
+│   ├── main_window.py              the Tk window; threaded Run, Enter-to-run, full
+│   │                               report display, elapsed-time status
 │   └── app.py                      entrypoint: python -m frontend.app
 │
 ├── clients/                     per-client intelligence (see clients/README.md)

@@ -22,6 +22,7 @@ class ClientResearchContext:
     """The subset of a client's intelligence relevant to Reddit research."""
 
     client_id: str
+    display_name: str
     primary_keywords: list[str] = field(default_factory=list)
     competitor_names: list[str] = field(default_factory=list)
 
@@ -53,13 +54,17 @@ def _competitor_names(competitors: dict) -> list[str]:
 
 
 def load_client_context(clients_dir: Path, client_id: str) -> ClientResearchContext:
-    """Load SEO keywords and competitor names for ``client_id``, if present."""
+    """Load display name, SEO keywords, and competitor names for ``client_id``."""
     client_dir = clients_dir / client_id
+    profile = _load_json(client_dir / "profile.json")
     seo = _load_json(client_dir / "seo.json")
     competitors = _load_json(client_dir / "competitors.json")
 
+    display_name = profile.get("client_name") or profile.get("company") or client_id
+
     context = ClientResearchContext(
         client_id=client_id,
+        display_name=display_name,
         primary_keywords=list(seo.get("primary_keywords", [])),
         competitor_names=_competitor_names(competitors),
     )
