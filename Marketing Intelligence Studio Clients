@@ -1,0 +1,10 @@
+# Client Intelligence Structure
+
+Each client contains:
+- profile.json: company and audience
+- prompts.json: AI voice, writing rules, and prohibited language
+- seo.json: keyword strategy
+- competitors.json: internal competitor intelligence
+- knowledge/: living markdown knowledge base updated by the application
+
+The application should automatically enrich the knowledge folder after research runs.
