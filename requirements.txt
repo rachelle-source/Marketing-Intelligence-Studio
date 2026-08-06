@@ -2,5 +2,12 @@
 pydantic>=2.6,<3
 pydantic-settings>=2.2,<3
 
+# Reddit research (backend.reddit)
+praw>=7,<8
+
 # Testing
 pytest>=8.0,<9
+
+# Desktop GUI (backend.frontend) — tkinter is stdlib but needs the system Tk
+# package: `python3-tk` on Debian/Ubuntu; bundled by default in the
+# python.org Windows/macOS installers used for PyInstaller packaging.

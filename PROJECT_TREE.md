@@ -15,15 +15,27 @@ Marketing-Intelligence-Studio/
 │   ├── models/                  pydantic domain models (one module per DB table)
 │   ├── services/                service interfaces (the "Internal API")
 │   │   ├── client_service.py       ClientService        — TODO: implementation
-│   │   ├── research_service.py     ResearchService       — TODO: implementation (needs backend/reddit)
+│   │   ├── research_service.py     ResearchService       — implemented by backend/reddit/service.py
 │   │   ├── ai_service.py           AIService             — TODO: Claude integration + Prompt Builder
 │   │   ├── knowledge_service.py    KnowledgeService      — TODO: implementation
 │   │   ├── export_service.py       ExportService         — TODO: Markdown exporter, then DOCX/HTML/PDF
 │   │   └── settings_service.py     SettingsService       — implemented (SQLite-backed)
-│   ├── reddit/                  TODO: placeholder for the existing Reddit scraper
+│   ├── reddit/                  Reddit research — implemented (PRAW-backed), v1
+│   │   ├── client.py               thin, mockable PRAW wrapper
+│   │   ├── query_builder.py        topic -> keyword-aware search queries
+│   │   ├── analysis.py             dedup, spam filter, relevance, extraction
+│   │   ├── client_context.py       loads a client's seo.json/competitors.json
+│   │   ├── service.py              RedditService (ResearchService impl)
+│   │   ├── models.py               shared normalized data model
+│   │   └── errors.py               RedditCredentialsError / RedditSearchError
 │   └── lint/                    TODO: placeholder for the existing draft linter
 │
-├── frontend/                    TODO: desktop GUI — not built yet
+├── frontend/                    Desktop GUI (Tkinter) — v1, plain but working
+│   ├── client_discovery.py         reads clients/<slug>/profile.json
+│   ├── tools.py                    marketing tool registry
+│   ├── run_controller.py           (client, tool, topic) -> backend calls, Tk-free
+│   ├── main_window.py              the Tk window
+│   └── app.py                      entrypoint: python -m frontend.app
 │
 ├── clients/                     per-client intelligence (see clients/README.md)
 │   ├── kore/                      populated — KORE Wireless (kore-content-writer skill)
@@ -57,7 +69,8 @@ Marketing-Intelligence-Studio/
 │   ├── 01_design.md
 │   └── 02_engineering.md
 │
-├── conftest.py                  makes backend/* importable under pytest
+├── conftest.py                  makes backend/* importable under pytest; registers the
+│                                 "integration" pytest marker
 ├── requirements.txt
 ├── .env.example
 ├── .gitignore
@@ -67,9 +80,9 @@ Marketing-Intelligence-Studio/
 
 ## Pending (explicit TODOs — see README.md for details)
 
-- Reddit scraper source → `backend/reddit/`
 - Draft linter source → `backend/lint/`
 - Claude API integration + Prompt Builder → `backend/services/ai_service.py`
 - Markdown exporter → `backend/services/export_service.py`
-- Desktop GUI → `frontend/`
+- `ClientService` (real client CRUD/sync into the database)
+- A styled, multi-panel desktop UI per the Design Pack (today's is plain)
 - Real client briefs for `korr`, `8msolar`, `solartime`, `crinkletime`, `unsexy_businessmen`
