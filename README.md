@@ -102,10 +102,43 @@ Pipeline for `RedditService.research(client_id, topic)`:
    full fetch (which can be 50-100+ posts across 4 query variants).
 6. Extract customer questions, pain points, buying signals, and competitor
    mentions from every surviving post (now with comments attached).
-7. `run_and_report` renders the result as Markdown, saves it into
+7. `run_and_report` renders the result as a **market research brief**
+   (`backend/reddit/report.py`), saves it into
    `clients/<slug>/knowledge/reddit.md`, and persists a `ResearchSession`
    row. `run_reddit_research` (the bare `ResearchService`-required method)
    is a thin wrapper around it for interface compliance.
+
+### The brief itself
+
+The report is written to be read by a marketing strategist, not a
+developer — sections in priority order:
+
+1. **Executive Summary** — a short paragraph: how many discussions were
+   reviewed, how many pain points/buying signals/competitor mentions were
+   found, the most-discussed competitor (if any), and any recurring terms
+   that showed up in more than one discussion.
+2. **Key Findings** — up to 5 standout items (capped at 2 per category:
+   pain point / buying signal / competitor mention / question), pulled from
+   the highest-relevance discussions first — read this and stop if that's
+   all the time you have.
+3. **Customer Pain Points** / **Buying Signals & Purchase Intent** —
+   every distinct point found, grouped under one heading each and
+   deduplicated, instead of repeating the same structure once per thread.
+4. **Competitive Landscape** — competitors mentioned, aggregated with a
+   mention count and which subreddits, most-mentioned first.
+5. **Questions From the Community** — capped at 8 with a "...and N more"
+   note, so a long list of near-identical questions doesn't dominate the
+   page.
+6. **Sources** and a one-line *Methodology* note — thread titles/links and
+   the search/dedup/spam stats live here, at the very bottom, not mixed
+   into the narrative above.
+
+Relevance scores, comment counts, and query-variant lists — useful for
+debugging, meaningless to a client — never appear in the narrative sections;
+they're either dropped entirely or folded into that closing Methodology
+line. Everything in the brief is copied or counted directly from real
+extracted data; nothing is generated or invented (there's no LLM in this
+pipeline yet — see `AIService`, still `TODO`).
 
 Requires `REDDIT_CLIENT_ID` / `REDDIT_CLIENT_SECRET` (see `.env.example`) —
 get them at https://www.reddit.com/prefs/apps. Everything is unit-tested
@@ -260,6 +293,38 @@ A knowledge base that erases yesterday's research every time someone runs
 a new query isn't a knowledge base. `save_report_to_knowledge_base` detects
 the scaffolded placeholder (replaces it once) and otherwise appends a new
 dated section — the file is a running log a team member can scroll through.
+
+**Why the brief groups findings by category instead of repeating a
+per-thread block.** The original layout listed every kept post with its own
+"Questions / Pain points / Buying signals" sub-list — readable for
+debugging, but it made a reader piece together "what are customers actually
+saying" by re-reading N thread blocks. Grouping every pain point together,
+every buying signal together, etc. (deduplicated) means a strategist reads
+one coherent list per theme instead of reassembling it themselves.
+
+**Why Key Findings is capped at 5, 2 per category.** Without a cap, "Key
+Findings" would just be a shorter copy of the sections below it. The 2-per-
+category limit forces variety (not five near-identical pain points) while
+still letting one unusually rich top-relevance thread contribute more than
+one *kind* of finding — that's still "most important first," just expressed
+across categories rather than restricted to one thread each.
+
+**Why "recurring terms" and "top competitor" are the only synthesized
+lines, and both are literal counts.** A real market-research brief usually
+opens with a synthesized insight ("customers are frustrated with X"). There
+is no LLM in this pipeline to write that honestly — `AIService` is still
+`TODO`. Rather than fabricate confident-sounding prose, the executive
+summary limits itself to two mechanically-derived, defensible statements:
+which competitor was mentioned most (a plain count) and which words recur
+across 2+ distinct pain points/buying signals (a plain word-frequency
+count, stopword-filtered). Both are labeled as counts, not claims.
+
+**Why relevance scores, comment counts, and query variants disappear from
+the narrative.** They're real numbers the pipeline uses internally
+(ranking, dedup, spam-filtering) but meaningless to someone deciding what to
+do about customer feedback. They're not lost — they live in the one-line
+Methodology footer — just no longer competing for attention with the actual
+findings.
 
 **Why Run happens on a background thread.** Tkinter has one UI thread; a
 network-bound PRAW search taking a few seconds would otherwise freeze
