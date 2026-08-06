@@ -80,6 +80,16 @@ Marketing-Intelligence-Studio/
 │   ├── 01_design.md
 │   └── 02_engineering.md
 │
+├── packaging/                    standalone Windows/macOS app packaging (PyInstaller)
+│   ├── pyinstaller.spec             build spec: bundles the interpreter + all deps
+│   ├── build_windows.bat            local build script (run on Windows)
+│   └── build_macos.sh               local build script (run on macOS)
+├── Release/                      Version 1 distributable — see Release/README.md
+│   ├── README.md                    what's inside, how to get/rebuild the app zips
+│   └── HOW TO INSTALL.txt           non-technical install/setup guide
+├── .github/workflows/
+│   └── build-release.yml            CI: builds real .exe/.app on windows-latest/macos-latest
+│
 ├── conftest.py                  makes backend/* importable under pytest; registers the
 │                                 "integration" pytest marker
 ├── requirements.txt
