@@ -65,7 +65,9 @@ class RunController:
         if tool is None:
             return RunResult(False, "Select a tool first.")
         if not tool.available:
-            return RunResult(False, f"{tool.name} is not implemented yet — see {tool.backing_module}.")
+            return RunResult(
+                False, f"{tool.name} isn't available yet — it's on the roadmap. Try Reddit Research for now."
+            )
         if tool.requires_topic and not topic.strip():
             return RunResult(
                 False, f"{tool.name} needs a topic. Enter one and click Run again.", needs_focus="topic"

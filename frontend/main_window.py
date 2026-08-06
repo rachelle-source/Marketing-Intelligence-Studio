@@ -219,11 +219,11 @@ class MainWindow(tk.Tk):
 
     def _populate_lists(self) -> None:
         for client in self._clients:
-            suffix = "" if client.status == "populated" else "  [no source data]"
+            suffix = "" if client.status == "populated" else "  (profile not set up yet)"
             self._client_listbox.insert("end", f"{client.display_name}{suffix}")
 
         for index, tool in enumerate(self._tools):
-            suffix = "" if tool.available else "  [not available]"
+            suffix = "" if tool.available else "  (coming soon)"
             self._tool_listbox.insert("end", f"{tool.name}{suffix}")
             if not tool.available:
                 self._tool_listbox.itemconfig(index, fg=DIMMED_COLOR)
