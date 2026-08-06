@@ -21,7 +21,7 @@ The real Windows `.exe` and macOS `.app` are built automatically by the
 runners. Download them from the latest successful workflow run and drop
 the two zip files into this folder:
 
-**Run:** https://github.com/rachelle-source/Marketing-Intelligence-Studio/actions/runs/31129087130
+**Run:** https://github.com/rachelle-source/Marketing-Intelligence-Studio/actions/runs/31129138519
 
 (If that run shows the macOS build still queued or cancelled — GitHub's
 shared macOS runners are sometimes slow to become available — re-run the
