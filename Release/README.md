@@ -17,11 +17,17 @@ Git, or a command line to use.
 ## Getting the built app
 
 The real Windows `.exe` and macOS `.app` are built automatically by the
-**Build Release** GitHub Actions workflow — both were built successfully
-from real Windows and macOS runners. Download them from the workflow run
-and drop the two zip files into this folder:
+**Build Release** GitHub Actions workflow, from real Windows and macOS
+runners. Download them from the latest successful workflow run and drop
+the two zip files into this folder:
 
-**Run:** https://github.com/rachelle-source/Marketing-Intelligence-Studio/actions/runs/31128773572
+**Run:** https://github.com/rachelle-source/Marketing-Intelligence-Studio/actions/runs/31129087130
+
+(If that run shows the macOS build still queued or cancelled — GitHub's
+shared macOS runners are sometimes slow to become available — re-run the
+workflow from the Actions tab, or check
+https://github.com/rachelle-source/Marketing-Intelligence-Studio/actions/workflows/build-release.yml
+for the most recent successful run.)
 
 1. Open that link and sign in to GitHub if needed.
 2. Scroll to the **Artifacts** section at the bottom of the run page.
