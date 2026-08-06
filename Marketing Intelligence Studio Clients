@@ -11,9 +11,235 @@ The application should automatically enrich the knowledge folder after research 
 
 clients/
     kore/
+{
+  "research_competitors": [
+    "Monogoto",
+    "EMnify",
+    "Soracom",
+    "1NCE",
+    "Hologram",
+    "Onomondo",
+    "Sierra Wireless",
+    "floLIVE"
+  ],
+  "mention_publicly": false
+}
+{
+  "company_name": "KORE Wireless",
+  "website": "https://www.korewireless.com",
+  "industry": "IoT Connectivity",
+  "description": "Global IoT connectivity infrastructure and managed IoT solutions.",
+  "products": [
+    "IoT Connectivity",
+    "Multi-network SIM",
+    "eSIM",
+    "Device Services",
+    "Managed IoT Solutions"
+  ],
+  "services": [
+    "Connectivity Management",
+    "IoT Consulting",
+    "Managed Services"
+  ],
+  "target_audience": [
+    "Enterprise IT",
+    "Healthcare",
+    "Fleet & Logistics",
+    "Industrial",
+    "Utilities",
+    "Smart Cities"
+  ],
+  "preferred_cta": "Talk to a KORE expert."
+}
+{
+  "voice": [
+    "Professional",
+    "Authoritative",
+    "Formal with warmth",
+    "Confident"
+  ],
+  "writing_rules": [
+    "Lead with education.",
+    "Support claims with evidence.",
+    "Write for enterprise decision-makers.",
+    "Keep paragraphs concise."
+  ],
+  "avoid": [
+    "Passive voice",
+    "Buzzword soup",
+    "Sci-fi language",
+    "Unsubstantiated superlatives"
+  ],
+  "public_competitor_mentions": false
+}
+{
+  "primary_keywords": [
+    "IoT connectivity",
+    "IoT SIM",
+    "eSIM",
+    "Managed IoT"
+  ],
+  "locations": [
+    "Global"
+  ],
+  "title_style": "Clear, benefit-driven",
+  "meta_style": "Educational"
+}
     korr/
+{
+  "research_competitors": [
+    "PNOE",
+    "VO2 Master",
+    "COSMED",
+    "ParvoMedics",
+    "Cortex"
+  ],
+  "mention_publicly": false
+}
+{
+  "company_name": "KORR Medical Technologies",
+  "industry": "Metabolic Testing",
+  "preferred_cta": "Request a demo"
+}
+{
+  "voice": [
+    "Scientific",
+    "Evidence-based",
+    "Educational"
+  ],
+  "writing_rules": [
+    "Reference validated science.",
+    "Avoid overstating medical claims."
+  ],
+  "avoid": [
+    "Unsupported medical claims"
+  ]
+}
+{
+  "primary_keywords": [
+    "VO2 max testing",
+    "Resting metabolic rate"
+  ]
+}
     8msolar/
+{
+  "research_competitors": [
+    "NC Solar",
+    "Blue Raven",
+    "Southern Energy Management",
+    "Yes Solar",
+    "Renu Energy Solutions"
+  ],
+  "mention_publicly": false
+}
+{
+  "company_name": "8MSolar",
+  "website": "https://8msolar.com",
+  "industry": "Residential & Commercial Solar",
+  "preferred_cta": "Contact 8MSolar \u2014 (919) 948-6474"
+}
+
+{
+  "primary_keywords": [
+    "North Carolina solar",
+    "battery backup",
+    "EV charging"
+  ]
+}
     mcfie/
+{
+  "research_competitors": [
+    "Buy term, invest the difference"
+  ],
+  "mention_publicly": false
+}
+{
+  "company_name": "McFie Insurance",
+  "website": "https://mcfieinsurance.com",
+  "industry": "Insurance",
+  "preferred_cta": "Schedule a strategy session"
+}
+{
+  "voice": [
+    "Calm",
+    "Educational",
+    "Respectful"
+  ],
+  "writing_rules": [
+    "Acknowledge other viewpoints respectfully.",
+    "Explain concepts clearly."
+  ],
+  "avoid": [
+    "Hype",
+    "Guaranteed returns",
+    "Attacking other philosophies"
+  ]
+}
+{
+  "primary_keywords": [
+    "Infinite Banking",
+    "Whole Life Insurance"
+  ]
+}
     solartime/
+{
+  "research_competitors": [],
+  "mention_publicly": false
+}
+{
+  "company_name": "SolarTime USA",
+  "website": "https://solartime.us",
+  "industry": "Solar",
+  "preferred_cta": "Book a free consultation"
+}
+{
+  "voice": [
+    "Transparent",
+    "Founder-led",
+    "Straightforward"
+  ],
+  "writing_rules": [
+    "Myth-bust with evidence.",
+    "Keep language simple."
+  ],
+  "avoid": [
+    "Corporate speak",
+    "Vague savings claims"
+  ]
+}
+{
+  "primary_keywords": [
+    "Texas solar",
+    "DFW solar"
+  ]
+}
+
     crinkletime/
-    unsexy_businessmen/
+{
+  "research_competitors": [],
+  "mention_publicly": false
+}
+{
+  "company_name": "CrinkleTime",
+  "website": "https://crinkletime.com",
+  "industry": "Packaging",
+  "preferred_cta": "Shop now"
+}
+{
+  "voice": [
+    "Modern",
+    "Elevated",
+    "Eco-conscious"
+  ],
+  "writing_rules": [
+    "Highlight presentation and unboxing."
+  ],
+  "avoid": []
+}
+{
+  "primary_keywords": [
+    "Crinkle paper",
+    "Packaging filler"
+  ]
+}
+
