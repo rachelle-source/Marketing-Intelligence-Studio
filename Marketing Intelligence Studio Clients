@@ -8,3 +8,12 @@ Each client contains:
 - knowledge/: living markdown knowledge base updated by the application
 
 The application should automatically enrich the knowledge folder after research runs.
+
+clients/
+    kore/
+    korr/
+    8msolar/
+    mcfie/
+    solartime/
+    crinkletime/
+    unsexy_businessmen/
