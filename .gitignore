@@ -1,0 +1,20 @@
+# Environment / secrets
+.env
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+.venv/
+venv/
+
+# Runtime data (kept as empty dirs via .gitkeep)
+logs/*.log*
+output/*
+!output/.gitkeep
+data/*.db
+!data/.gitkeep
+
+# OS
+.DS_Store

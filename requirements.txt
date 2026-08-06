@@ -1,0 +1,6 @@
+# Core
+pydantic>=2.6,<3
+pydantic-settings>=2.2,<3
+
+# Testing
+pytest>=8.0,<9
