@@ -48,13 +48,15 @@ backend/
 └── lint/                  # TODO: placeholder for the existing draft linter
 
 frontend/    # TODO: desktop GUI — not built yet
-clients/     # per-client JSON config files (none committed yet)
+clients/     # per-client intelligence (profile/prompts/seo/competitors + knowledge/) — see clients/README.md
 logs/        # app.log (rotating), git-ignored except .gitkeep
 output/      # generated exports, git-ignored except .gitkeep
 data/        # SQLite database file, git-ignored except .gitkeep
 tests/       # pytest suite for the foundation
 docs/        # the three doc packs above
 ```
+
+See [`PROJECT_TREE.md`](PROJECT_TREE.md) for the full, current file tree.
 
 ## Architectural decisions
 
@@ -104,6 +106,21 @@ wires them together — a future CLI or GUI entrypoint calls
 The Design Pack requires "structured errors instead of raw exceptions" so a
 future UI can distinguish "not found" from "invalid input" from "something
 broke," instead of parsing exception messages.
+
+**Why `clients/` is file-based (JSON + Markdown) rather than only living in
+the database.** Client intelligence — brand voice, SEO, competitors,
+knowledge base — needs to be authored, reviewed, and diffed by humans before
+any service reads it. Plain files under version control support that; the
+database schema stays the sync target for a future `ClientService`, not the
+source of truth for this content.
+
+**Why only `kore` and `mcfie` have real content.** Every other client
+(`korr`, `8msolar`, `solartime`, `crinkletime`, `unsexy_businessmen`) has no
+existing brand/business data anywhere in this repo, its git history, or any
+installed skill — confirmed by an explicit search before writing anything.
+Rather than invent plausible-sounding brand voice or competitors for them,
+they ship as structurally-correct scaffolds with `"status": "no_source_data"`
+and empty fields. See `clients/README.md` for the per-client breakdown.
 
 ## Pending work
 

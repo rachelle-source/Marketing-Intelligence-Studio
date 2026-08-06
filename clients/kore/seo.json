@@ -1,0 +1,115 @@
+{
+  "primary_keywords": [
+    "IoT connectivity",
+    "enterprise IoT",
+    "global IoT connectivity",
+    "IoT connectivity management",
+    "managed IoT connectivity",
+    "IoT deployment"
+  ],
+  "keyword_clusters": {
+    "flexible_multi_network": [
+      "multi-network IoT connectivity",
+      "multi-carrier IoT",
+      "carrier-agnostic IoT",
+      "IoT SIM management",
+      "eSIM IoT",
+      "IoT roaming",
+      "SIM and eSIM solutions",
+      "IoT network flexibility"
+    ],
+    "global": [
+      "global IoT deployment",
+      "IoT connectivity 200 countries",
+      "international IoT connectivity",
+      "global IoT MVNO",
+      "localized IoT connectivity",
+      "24/7 IoT support",
+      "IoT global scale"
+    ],
+    "scalable": [
+      "scale IoT deployment",
+      "IoT device management",
+      "IoT fleet management",
+      "IoT provisioning",
+      "IoT connectivity platform",
+      "connectivity management platform",
+      "IoT at scale",
+      "IoT logistics",
+      "IoT hardware management"
+    ],
+    "proven": [
+      "enterprise IoT infrastructure",
+      "IoT managed services",
+      "trusted IoT provider",
+      "IoT solutions provider",
+      "mission-critical IoT",
+      "enterprise-grade IoT"
+    ],
+    "connected_health": [
+      "connected health IoT",
+      "remote patient monitoring connectivity",
+      "healthcare IoT connectivity",
+      "medical device connectivity",
+      "cellular health devices",
+      "IoT healthcare solutions"
+    ],
+    "fleet_logistics": [
+      "fleet IoT connectivity",
+      "connected fleet management",
+      "vehicle tracking IoT",
+      "logistics IoT solutions",
+      "supply chain IoT",
+      "asset tracking fleet"
+    ],
+    "industrial_iot": [
+      "industrial IoT connectivity",
+      "IIoT solutions",
+      "smart manufacturing connectivity",
+      "industrial device management",
+      "utilities IoT",
+      "smart infrastructure IoT"
+    ],
+    "asset_tracking": [
+      "IoT asset tracking",
+      "real-time asset tracking",
+      "connected asset management"
+    ],
+    "smart_cities": [
+      "smart city IoT",
+      "smart infrastructure connectivity",
+      "public sector IoT"
+    ],
+    "technology": [
+      "5G IoT connectivity",
+      "LTE-M IoT",
+      "NB-IoT",
+      "eSIM technology",
+      "MVNO IoT",
+      "IoT connectivity platform",
+      "API-driven IoT management",
+      "IoT security",
+      "IoT device lifecycle management"
+    ],
+    "long_tail_thought_leadership": [
+      "how to scale IoT deployment globally",
+      "choosing an IoT connectivity provider",
+      "multi-carrier vs single carrier IoT",
+      "IoT connectivity challenges enterprise",
+      "enterprise IoT deployment best practices",
+      "IoT connectivity cost management",
+      "what is eSIM IoT",
+      "IoT connectivity for healthcare",
+      "how to manage IoT devices at scale",
+      "global IoT compliance"
+    ]
+  },
+  "keywords_to_avoid": [
+    "\"wireless\" alone (too generic)",
+    "\"M2M\" (older term - use IoT unless audience is technical legacy)",
+    "competitor brand names (never in content)",
+    "\"connectivity solutions\" without a qualifier"
+  ],
+  "status": "populated",
+  "source": "kore-content-writer skill (installed locally: /root/.claude/skills/kore-content-writer/references/*.md)"
+}

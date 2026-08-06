@@ -1,0 +1,37 @@
+{
+  "primary_keywords": [
+    "participating whole life insurance",
+    "infinite banking concept",
+    "policy loans",
+    "cash value life insurance",
+    "perpetual wealth code",
+    "bank on yourself alternative"
+  ],
+  "keyword_clusters": {
+    "core_concepts": [
+      "participating whole life insurance",
+      "mutual insurance company",
+      "paid-up additions rider",
+      "modified endowment contract",
+      "policy loan vs withdrawal"
+    ],
+    "infinite_banking": [
+      "infinite banking concept",
+      "becoming your own banker",
+      "nelson nash institute",
+      "is infinite banking a scam"
+    ],
+    "comparisons": [
+      "whole life vs term life insurance",
+      "mcfie vs bank on yourself",
+      "iul vs whole life insurance",
+      "buy term and invest the difference"
+    ]
+  },
+  "keywords_to_avoid": [
+    "N/A \u2014 no client-approved SEO keyword list exists yet; this cluster set is derived from terminology already used in the brand's own voice/education material, not a verified SEO audit."
+  ],
+  "status": "populated",
+  "source": "mcfie-content-hub skill (installed locally: /root/.claude/skills/mcfie-content-hub/references/*.md)",
+  "notes": "Unlike KORE, the McFie skill bundle does not include a dedicated SEO keyword file. The keywords above are the concept terms the brand's own reference docs consistently use \u2014 treat as a starting point, not a verified/approved SEO list."
+}

@@ -1,0 +1,84 @@
+{
+  "voices": [
+    {
+      "name": "John",
+      "person": "John McFie (founder)",
+      "best_for": "Deep educational articles, authority pieces, books",
+      "reference": "voice-john.md",
+      "tone": "Authoritative, principled, direct, freedom-oriented; draws on scripture/history"
+    },
+    {
+      "name": "Tom",
+      "person": "Tom (senior agent)",
+      "best_for": "Policy comparisons, Bank on Yourself context, client-facing explainers",
+      "reference": "voice-tom.md",
+      "tone": "Warm, knowledgeable, practical, transparent about tradeoffs"
+    },
+    {
+      "name": "Ben",
+      "person": "Ben McFie",
+      "best_for": "IBC / Infinite Banking content, younger audience",
+      "reference": "voice-ben.md",
+      "tone": "Explanatory, historically grounded, skeptic-friendly, analytical"
+    },
+    {
+      "name": "Gracine",
+      "person": "Gracine (writer)",
+      "best_for": "Inspirational/motivational content, storytelling, lifestyle angle",
+      "reference": "voice-gracine.md",
+      "tone": "Warm, encouraging, storyteller, uses historical/literary examples"
+    },
+    {
+      "name": "Brand",
+      "person": "McFie Insurance brand",
+      "best_for": "Social media, emails, website copy, general brand content",
+      "reference": "voice-brand.md",
+      "tone": "Educational, independent, trustworthy, client-first, liberty-minded"
+    }
+  ],
+  "content_types": {
+    "blog": {
+      "length_words": "800-1500",
+      "tone": "Educational, SEO-friendly, CTA at end"
+    },
+    "email_newsletter": {
+      "length_words": "300-600",
+      "tone": "Conversational, single focus, clear CTA"
+    },
+    "social_media": {
+      "note": "Platform-specific \u2014 see seo.json is not used here, see knowledge/blog_topics.md and social-media-guide source"
+    },
+    "youtube_script": {
+      "structure": [
+        "Hook",
+        "Story",
+        "Education",
+        "CTA"
+      ],
+      "tone": "Conversational, spoken style"
+    },
+    "website_copy": {
+      "tone": "Clear, benefit-driven, scannable, SEO-aware"
+    }
+  },
+  "cta_examples": [
+    "Schedule a free strategy session at McFieInsurance.com",
+    "Call us at 702-660-7000",
+    "Download our [resource name] at McFieInsurance.com",
+    "Get an independent insurance review from McFie Insurance"
+  ],
+  "quality_checklist": [
+    "Lead with education, not sales",
+    "Use 'participating whole life insurance' (not just 'whole life' alone in technical contexts)",
+    "Describe life insurance as an asset or financial tool \u2014 never an 'investment'",
+    "Include a CTA pointing to a strategy session or McFie's contact info",
+    "Use 'policy loan' not 'withdrawal' when referring to accessing cash value",
+    "'At McFie Insurance' appears no more than once per piece",
+    "No banned words/phrases (see knowledge/objections.md and phrases-to-avoid source)",
+    "Never promise specific returns or guarantee outcomes",
+    "Never disparage Dave Ramsey, Suze Orman, or other financial personalities by name \u2014 address ideas, not people",
+    "Never call IUL, VUL, or UL policies 'good alternatives'"
+  ],
+  "status": "populated",
+  "source": "mcfie-content-hub skill (installed locally: /root/.claude/skills/mcfie-content-hub/references/*.md)"
+}

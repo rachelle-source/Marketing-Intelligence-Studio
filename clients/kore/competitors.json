@@ -1,0 +1,40 @@
+{
+  "positioning_statement": "Enterprise IoT connectivity infrastructure - built for real-world deployment at global scale. KORE's advantage is the combination of scale, experience, end-to-end infrastructure, and regulated-vertical depth - most competitors cannot match all four together.",
+  "named_competitors": [
+    {
+      "name": "Emnify",
+      "type": "IoT connectivity provider",
+      "notes": "Dedicated comparison sheet exists but is an unpopulated placeholder awaiting client-approved competitive intelligence. Do not publish unverified Emnify claims."
+    }
+  ],
+  "competitor_categories": [
+    {
+      "type": "Simple MVNOs",
+      "gap": "Connectivity only, no infrastructure depth",
+      "kore_advantage": "Full end-to-end stack"
+    },
+    {
+      "type": "Regional MNOs",
+      "gap": "Limited international reach",
+      "kore_advantage": "200+ countries, 40+ carrier partners"
+    },
+    {
+      "type": "Cloud-native connectivity platforms",
+      "gap": "Strong dev tooling, thin on logistics/compliance",
+      "kore_advantage": "Managed services, regulated vertical depth"
+    },
+    {
+      "type": "SIM-only vendors",
+      "gap": "No device management, no logistics",
+      "kore_advantage": "Full lifecycle from SIM to device to logistics"
+    }
+  ],
+  "rules": [
+    "Do not name competitors unless it's an explicitly named comparison piece",
+    "Do not claim KORE is 'the best' without a specific, substantiated proof point",
+    "Do not frame competitors as inferior - frame KORE's advantages as right for the right buyer",
+    "Do not lead with technology specs - lead with business outcomes and buyer scenarios"
+  ],
+  "status": "populated",
+  "source": "kore-content-writer skill (installed locally: /root/.claude/skills/kore-content-writer/references/*.md)"
+}
