@@ -153,23 +153,42 @@ first run replaces the scaffolded "Status: empty" placeholder in
 `knowledge/reddit.md`; every run after that appends a new dated section —
 it's a running research log, not a one-off snapshot that gets overwritten.
 
-## Desktop GUI (v2)
+## Desktop GUI (v3 — tuned for a first-time user)
 
 `python -m frontend.app` opens a plain Tkinter window: a client list (from
 `clients/`), a marketing tool list, a topic field, and a Run button. Still
-not styled — this version optimizes for "does it work well," not "does it
-look good."
+not styled — this version optimizes for "obvious to use," not "looks good."
 
-Only **Reddit Research** is wired to a real backend call; the other three
-tools are listed (so the team can see what's coming) but clicking Run
-reports plainly that they're not implemented yet, rather than faking output.
+The whole point of this version is that the promised workflow — *pick a
+client, type a topic, click Run* — needs zero learning:
 
-Research runs on a background thread — the window stays responsive (and the
-Run button is visibly disabled) for however long the search takes, instead
-of freezing. Pressing Enter in the topic field runs it too. The output pane
-shows the full rendered report (every kept thread, its questions/pain
-points/buying signals/competitor mentions, and a link), not just a one-line
-count — and the status bar reports how long the run took.
+- **Reddit Research is pre-selected on launch.** It's the only tool that
+  works, so the topic field is already enabled the moment the window opens
+  — no click required to "unlock" it. The other three tools stay listed
+  (so the team can see the roadmap) but render in grey and, if clicked and
+  run, say plainly that they're not implemented yet instead of faking
+  output.
+- **The output pane opens with instructions, not a blank box** — three
+  numbered steps, so a first-time user never has to guess what to do.
+- **The topic field shows example topics as placeholder text** (`e.g.
+  "pricing", "reliability", "customer support"`) instead of an unlabeled
+  blank box.
+- **Keyboard focus starts on the client list**, so the very first
+  keystroke (arrow keys) already does something useful.
+- **A missing client or topic returns focus to exactly the field that
+  needs it** — the error message doesn't just say what's wrong, the cursor
+  moves there.
+- **The report renders as formatted text** — bold headings and bullets —
+  instead of showing literal `##` and `**` Markdown syntax, which read as
+  "broken" to anyone who isn't expecting raw Markdown.
+- **The status bar confirms where the report was saved**
+  (`saved to kore/knowledge/reddit.md`) instead of leaving that fact
+  silent.
+- **After a successful run, focus returns to the topic field with the old
+  topic selected** — type the next one and hit Enter immediately, no
+  re-clicking anything.
+- Research still runs on a background thread (the window stays responsive
+  for however long the search takes) and Enter runs it, same as before.
 
 ## Architectural decisions
 
@@ -354,6 +373,42 @@ Design Pack's UI rule to never hide what's happening: a team member should
 be able to see the whole intended toolset (AI Writer, Knowledge Extraction,
 Markdown Export) and get a clear "not implemented yet" on Run, rather than
 wonder if the tool is missing or broken.
+
+**Why Reddit Research auto-selects on launch instead of requiring a click.**
+Watching a first-time run of the app made one thing obvious: with only one
+working tool, making a user click it before the topic field even unlocks is
+a pure tax, not a real choice. There's nothing to decide — it's the only
+tool that runs — so the window pre-selects it and the topic field is usable
+from the first frame.
+
+**Why the topic entry manages its own text directly instead of through a
+`StringVar`.** The topic field needed placeholder text ("e.g. \"pricing\"...")
+that must never be sent to `RunController` as a real topic. A `StringVar`
+would make the placeholder and the real value indistinguishable — one
+string, two meanings. Managing the `Entry` widget's content directly, with
+an explicit `_topic_placeholder_active` flag, keeps "what's currently
+typed" and "what should be searched for" as two separate, correct questions
+instead of one ambiguous one.
+
+**Why failed runs move keyboard focus, not just show a message.**
+"Select a client first." only helps if the user still has to go find the
+client list themselves. `RunResult.needs_focus` names which control the
+error is actually about, and `main_window` moves focus there — the error
+message and the fix are the same action, not two separate steps.
+
+**Why the report is rendered into Tk text tags instead of shown as raw
+Markdown.** The report content was already good; showing it with literal
+`##` and `**` characters visible made it look broken regardless. A small
+line-based parser (headings, bold spans, bullets, link syntax) turns the
+same Markdown string the knowledge base stores into actually-formatted text
+in the `Text` widget — no new report format, just a better way to display
+the one that already existed.
+
+**Why the topic field re-selects itself after a successful run.** A
+marketer researching one client rarely stops at one topic. Returning focus
+to the topic field with the previous topic already selected means typing
+the next topic and hitting Enter is the entire "run it again" action — no
+click back into the field, no clearing it first.
 
 ## Pending work
 

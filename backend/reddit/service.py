@@ -156,16 +156,20 @@ class RedditService(ResearchService):
 
     def run_and_report(
         self, client_id: str, topic: str, subreddits: Sequence[str] | None = None
-    ) -> tuple[ResearchSession, str]:
+    ) -> tuple[ResearchSession, str, Path]:
         """Run research, render + save the Markdown report, and persist a
         session. This is what the GUI (and any future caller wanting the
         full report, not just a one-line summary) should call.
+
+        Returns ``(session, report_markdown, knowledge_base_path)`` — the
+        path is included so callers (the GUI) can confirm to the user
+        exactly where the report was saved.
         """
         report = self.research(client_id, topic, subreddits=subreddits)
         context = load_client_context(self._clients_dir, client_id)
 
         report_markdown = render_markdown_report(report, context.display_name)
-        save_report_to_knowledge_base(self._clients_dir, client_id, report_markdown)
+        knowledge_path = save_report_to_knowledge_base(self._clients_dir, client_id, report_markdown)
 
         summary = (
             f"{len(report.analyzed_posts)} relevant post(s) found "
@@ -187,7 +191,7 @@ class RedditService(ResearchService):
         )
         self._save_session(session)
         self.logger.info("Saved research session %s for client %s", session.id, client_id)
-        return session, report_markdown
+        return session, report_markdown, knowledge_path
 
     def run_reddit_research(
         self, client_id: str, query: str, subreddits: Sequence[str] | None = None
@@ -195,7 +199,7 @@ class RedditService(ResearchService):
         """`ResearchService`-conforming adapter — see `run_and_report` for
         the richer result (session + full Markdown report) real callers want.
         """
-        session, _ = self.run_and_report(client_id, query, subreddits=subreddits)
+        session, _, _ = self.run_and_report(client_id, query, subreddits=subreddits)
         return session
 
     def list_sessions(self, client_id: str) -> list[ResearchSession]:

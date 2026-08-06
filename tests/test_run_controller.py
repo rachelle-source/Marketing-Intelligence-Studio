@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from backend.core.errors import ServiceError
 from frontend.client_discovery import ClientSummary
 from frontend.run_controller import RunController
@@ -33,7 +35,7 @@ class FakeRedditService:
         self.calls.append((client_id, topic))
         if self._error is not None:
             raise self._error
-        return (object(), self._markdown)
+        return (object(), self._markdown, Path("/tmp/clients/kore/knowledge/reddit.md"))
 
 
 def test_no_client_selected() -> None:
@@ -74,6 +76,24 @@ def test_reddit_research_success_returns_full_report_markdown() -> None:
     assert result.success is True
     assert "full report here" in result.message
     assert fake_service.calls == [("kore", "pricing")]
+
+
+def test_reddit_research_success_includes_short_saved_path() -> None:
+    fake_service = FakeRedditService(markdown="report")
+    controller = RunController(fake_service)
+
+    result = controller.run(CLIENT, REDDIT_TOOL, "pricing")
+
+    assert result.saved_to == "kore/knowledge/reddit.md"
+
+
+def test_reddit_research_failure_has_no_saved_path() -> None:
+    fake_service = FakeRedditService(error=ServiceError("boom", details={}))
+    controller = RunController(fake_service)
+
+    result = controller.run(CLIENT, REDDIT_TOOL, "pricing")
+
+    assert result.saved_to is None
 
 
 def test_reddit_research_reports_duration() -> None:

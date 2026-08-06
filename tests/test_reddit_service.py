@@ -142,13 +142,14 @@ def test_all_queries_failing_raises_structured_error(tmp_path: Path, monkeypatch
         service.research("kore", "IoT connectivity")
 
 
-def test_run_and_report_returns_session_and_markdown(tmp_path: Path) -> None:
-    service, _, _ = make_service(tmp_path, make_fake_reddit_with_posts())
-    session, markdown = service.run_and_report("kore", "IoT connectivity")
+def test_run_and_report_returns_session_markdown_and_path(tmp_path: Path) -> None:
+    service, _, clients_dir = make_service(tmp_path, make_fake_reddit_with_posts())
+    session, markdown, saved_path = service.run_and_report("kore", "IoT connectivity")
 
     assert session.client_id == "kore"
     assert "Reddit Research" in markdown
     assert "IoT connectivity" in markdown
+    assert saved_path == clients_dir / "kore" / "knowledge" / "reddit.md"
 
 
 def test_run_and_report_saves_to_knowledge_base(tmp_path: Path) -> None:
