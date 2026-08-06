@@ -45,6 +45,8 @@ Marketing-Intelligence-Studio/
 │   │                               report display, elapsed-time status, Save for
 │   │                               NotebookLM / Open Export Folder / Copy Report buttons
 │   ├── os_actions.py               open_in_file_manager() — cross-platform folder opener
+│   ├── credential_setup.py         RedditSetupDialog — first-run "Connect to Reddit"
+│   │                               dialog; no .env hand-editing required
 │   └── app.py                      entrypoint: python -m frontend.app
 │
 ├── clients/                     per-client intelligence (see clients/README.md)
@@ -83,7 +85,11 @@ Marketing-Intelligence-Studio/
 ├── packaging/                    standalone Windows/macOS app packaging (PyInstaller)
 │   ├── pyinstaller.spec             build spec: bundles the interpreter + all deps
 │   ├── build_windows.bat            local build script (run on Windows)
-│   └── build_macos.sh               local build script (run on macOS)
+│   ├── build_macos.sh               local build script (run on macOS)
+│   ├── INSTALL.md                   non-technical install/setup guide
+│   └── assets/
+│       ├── icon.ico                  Windows .exe icon
+│       └── icon.icns                 macOS .app icon
 ├── Release/                      Version 1 distributable — see Release/README.md
 │   ├── README.md                    what's inside, how to get/rebuild the app zips
 │   └── HOW TO INSTALL.txt           non-technical install/setup guide

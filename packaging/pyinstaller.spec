@@ -27,6 +27,9 @@ APP_NAME = "Marketing Intelligence Studio"
 # PyInstaller executes .spec files via exec() without a real `__file__`; it
 # injects `SPECPATH` (this spec's own directory) instead.
 REPO_ROOT = Path(SPECPATH).resolve().parent
+ASSETS_DIR = REPO_ROOT / "packaging" / "assets"
+WINDOWS_ICON = str(ASSETS_DIR / "icon.ico") if sys.platform == "win32" else None
+MACOS_ICON = str(ASSETS_DIR / "icon.icns") if sys.platform == "darwin" else None
 
 hidden_imports = (
     collect_submodules("praw")
@@ -38,7 +41,11 @@ a = Analysis(
     [str(REPO_ROOT / "frontend" / "app.py")],
     pathex=[str(REPO_ROOT)],
     binaries=[],
-    datas=[],
+    # Bundled so MainWindow can set the *running window's* taskbar/title-bar
+    # icon at runtime (self.iconbitmap()) — a separate thing from the
+    # .exe/.app file icon set below, which only covers Explorer/Finder/the
+    # dock, not Tk's own default icon while the window is open.
+    datas=[(str(ASSETS_DIR), "packaging/assets")],
     hiddenimports=hidden_imports,
     hookspath=[],
     runtime_hooks=[],
@@ -57,6 +64,7 @@ exe = EXE(
     strip=False,
     upx=False,
     console=False,  # windowed app — no terminal window pops up
+    icon=WINDOWS_ICON,
 )
 
 coll = COLLECT(
@@ -73,7 +81,7 @@ if sys.platform == "darwin":
     app = BUNDLE(
         coll,
         name=f"{APP_NAME}.app",
-        icon=None,
+        icon=MACOS_ICON,
         bundle_identifier="com.marketingintelligencestudio.desktop",
         info_plist={
             "CFBundleName": APP_NAME,

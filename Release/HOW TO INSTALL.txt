@@ -2,63 +2,69 @@
 
 No technical knowledge needed — no Python, no GitHub, no command line.
 
-## 1. Get the folder
+## Quick start
 
-You should have a folder called **"Marketing Intelligence Studio"** (Windows)
-or a file called **"Marketing Intelligence Studio.app"** alongside a
-`clients` folder and a `.env.example` file (macOS). If you received a `.zip`
-file, double-click it first to unzip everything into one folder, then keep
-that whole folder together — don't move just the app by itself.
+1. **Unzip** the folder you were sent, and keep everything inside it
+   together (don't pull just the app out on its own).
+2. **Open** `Marketing Intelligence Studio.exe` (Windows) or
+   `Marketing Intelligence Studio.app` (macOS) — double-click it, twice if
+   your computer shows a one-time security warning (see below).
+3. **The first time only**, a small window may ask you to connect a Reddit
+   account. If your team lead already shared a Reddit key with everyone,
+   you won't see this at all — skip straight to using the app. Otherwise,
+   see "Connecting to Reddit" below — it takes about 2 minutes.
 
-## 2. Add your Reddit credentials (one-time setup)
+That's it. Everything else — Python, the Reddit search library, all the
+software this needs — is already built into the app.
 
-Reddit Research needs a Reddit API key to search Reddit. This is free and
-takes about 2 minutes:
+## Opening it the first time
 
-1. Go to https://www.reddit.com/prefs/apps in your browser (log into Reddit
-   first if needed).
-2. Click **"create app"** (or "create another app").
-3. Fill in:
-   - **name**: anything, e.g. "Marketing Intelligence Studio"
-   - **type**: choose **script**
-   - **redirect uri**: `http://localhost:8080` (required by the form, not
-     actually used)
-4. Click **"create app"**. You'll see two values you need:
-   - **client ID** — the string right under the app name/"personal use
-     script"
-   - **secret** — labeled "secret"
-5. In the folder from step 1, find the file named **`.env.example`**. Make a
-   copy of it and rename the copy to **`.env`** (just `.env`, nothing else —
-   on Windows, if you don't see the `.example` part, turn on "File name
-   extensions" in File Explorer's View tab first).
-6. Open `.env` in Notepad (Windows) or TextEdit (Mac) and fill in the two
-   values you copied:
+Because this app isn't (yet) registered with Microsoft or Apple, your
+computer shows a one-time warning the very first time you open it. This is
+normal and expected — click through it once and it won't ask again.
 
-   ```
-   REDDIT_CLIENT_ID=paste_your_client_id_here
-   REDDIT_CLIENT_SECRET=paste_your_secret_here
-   ```
-7. Save the file and close it.
+- **Windows**: you'll see "Windows protected your PC" (SmartScreen). Click
+  **"More info"**, then **"Run anyway"**.
+- **macOS**: you'll see a message that the app "cannot be opened because it
+  is from an unidentified developer." Right-click (or Control-click) the
+  app, choose **"Open"**, then confirm **"Open"** in the dialog that
+  appears.
 
-**One team member can do this once and share the resulting `.env` file with
-the rest of the team** — everyone can use the same Reddit app credentials.
+## Connecting to Reddit
 
-## 3. Launch the app
+Reddit Research uses Reddit's own search, which requires a free Reddit API
+key. **One person on your team needs to do this once** — everyone else can
+reuse the same key.
 
-- **Windows**: open the "Marketing Intelligence Studio" folder and
-  double-click **`Marketing Intelligence Studio.exe`**.
-  - If Windows shows "Windows protected your PC" (SmartScreen, because this
-    app isn't yet from a registered publisher): click **"More info"**, then
-    **"Run anyway"**. This only appears the first time.
-- **macOS**: double-click **`Marketing Intelligence Studio.app`**.
-  - If macOS says the app "cannot be opened because it is from an
-    unidentified developer": right-click (or Control-click) the app, choose
-    **"Open"**, then confirm **"Open"** in the dialog. This only appears the
-    first time.
+If you're that person, the app will open a small **"Connect to Reddit"**
+window automatically the first time you launch it:
 
-The app window opens with Reddit Research already selected.
+1. Click **"Open reddit.com/prefs/apps to get your key"** — this opens your
+   browser to the right page (log into Reddit first if needed).
+2. Click **"create app"**, choose type **"script"**, and give it any name
+   (e.g. "Marketing Intelligence Studio"). For "redirect uri," enter
+   `http://localhost:8080` — the form requires something there, but it's
+   never actually used.
+3. Click **"create app"**. Reddit shows you two values: a **client ID**
+   (the string just under the app's name) and a **secret**.
+4. Copy those two values into the matching fields in the app's setup
+   window, then click **Save and Continue**. Done — no file editing, no
+   restart needed.
 
-## 4. Use it
+**To share this with your team**, either:
+
+- Have each teammate repeat the same 4 steps with their own free Reddit
+  account (each gets their own key), or
+- After you finish setup, find the `.env` file next to the app and send a
+  copy of it to your teammates — they can drop it into their own copy of
+  the folder before opening the app, and it'll already be connected.
+
+Didn't get to this in time, or typed something wrong? Click **"I'll do this
+later"** — the app opens normally, and running a search will explain what's
+missing. You can reopen the same setup window anytime from the app's
+**Settings → Reddit API Setup...** menu.
+
+## Using the app
 
 1. **Pick a client** from the list on the left.
 2. **Type a topic** in the box (e.g. "pricing", "reliability").
@@ -75,14 +81,35 @@ Drag the saved file into NotebookLM and you're done.
 
 ## Troubleshooting
 
-- **"Reddit research failed: Missing Reddit API credentials"** — the `.env`
-  file isn't set up correctly. Re-check step 2: the file must be named
-  exactly `.env` (not `.env.txt` or `.env.example`) and sit in the same
-  folder as the app.
+- **A "Connect to Reddit" window keeps reappearing** — the values entered
+  weren't accepted (a typo is the usual cause). Reopen **Settings → Reddit
+  API Setup...** from the app's menu and re-paste the client ID and secret
+  from reddit.com/prefs/apps, with no extra spaces.
+- **"Reddit research failed: Missing Reddit API credentials"** — Reddit
+  hasn't been connected yet. Use **Settings → Reddit API Setup...** to add
+  it (see "Connecting to Reddit" above) — no need to find or edit any file
+  by hand.
 - **The app won't open at all** — make sure you kept the whole folder
   together after unzipping (Windows) rather than moving just the `.exe` by
   itself; it needs the files next to it to run.
 - **Nothing happens when I click Run** — check that a client is selected in
   the list on the left (the topic box only works once one is).
+
+### For whoever set this up (advanced / optional)
+
+The Reddit key is stored in a plain text file named `.env`, in the same
+folder as the app, as two lines:
+
+```
+REDDIT_CLIENT_ID=...
+REDDIT_CLIENT_SECRET=...
+```
+
+To prepare this ahead of time instead of using the in-app setup window —
+useful if you want to copy one finished folder to every teammate so nobody
+sees the setup window at all — make a copy of the included `.env.example`
+file, rename the copy to `.env` (exactly that, no `.example` on the end),
+and fill in the two values in Notepad/TextEdit before you send the folder
+out.
 
 Anything else, contact whoever set this up for your team.

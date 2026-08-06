@@ -240,6 +240,15 @@ double-click desktop app — no Python, no Git, no command line:
   temporary or read-only bundle folder). Frozen builds instead resolve
   everything relative to the folder the user can actually see and edit: the
   one containing the `.exe`, or the one containing the `.app` bundle.
+- **No `.env` hand-editing required** (`frontend/credential_setup.py`) — a
+  "Connect to Reddit" dialog opens automatically the first time the app
+  launches with no Reddit key set (and again if a run ever fails because the
+  key is missing or wrong), so setup is two pasted values in a window, not a
+  text file to find and edit. Reachable anytime via **Settings → Reddit API
+  Setup...**.
+- **A real app icon** (`packaging/assets/icon.ico` / `icon.icns`) — so the
+  `.exe`/`.app` doesn't show a generic default icon in the taskbar, dock, or
+  file explorer.
 
 To build locally: `packaging/build_windows.bat` (Windows) or
 `packaging/build_macos.sh` (macOS).
