@@ -1,0 +1,33 @@
+{
+  "positioning_statement": "McFie Insurance is independent \u2014 not affiliated with Bank on Yourself or Infinite Banking Concepts, LLC. It specializes in designing (not just selling) whole life policies for maximum cash value, and can work with any life insurance company to find the best fit for the client.",
+  "competing_concepts_and_organizations": [
+    {
+      "name": "Bank on Yourself",
+      "type": "marketing group / franchise model",
+      "note": "McFie was previously affiliated but chose independence: joining required giving up the right to choose which insurance company a client's application is submitted to. Explain the split factually, without bitterness."
+    },
+    {
+      "name": "Infinite Banking Concepts, LLC / Nelson Nash Institute",
+      "type": "certification body",
+      "note": "McFie is not affiliated or certified through them, but is knowledgeable about IBC and can help clients interested in it."
+    },
+    {
+      "name": "IUL / VUL / UL (Universal Life variants)",
+      "type": "competing product category",
+      "note": "McFie does not recommend these. If mentioned, acknowledge they exist and explain tradeoffs honestly \u2014 never call them 'good alternatives.'"
+    },
+    {
+      "name": "Dave Ramsey / Suze Orman (and other named financial personalities)",
+      "type": "competing financial philosophy",
+      "note": "Never attack by name. Address the underlying idea instead \u2014 e.g. 'the advice to buy term and invest the difference doesn't account for...' rather than naming the person."
+    }
+  ],
+  "rules": [
+    "Never attack named financial personalities \u2014 address ideas, not people",
+    "Never claim affiliation with Bank on Yourself or Infinite Banking Concepts, LLC",
+    "Never call IUL/VUL/UL 'good alternatives'",
+    "Always frame the split from Bank on Yourself factually, not bitterly"
+  ],
+  "status": "populated",
+  "source": "mcfie-content-hub skill (installed locally: /root/.claude/skills/mcfie-content-hub/references/*.md)"
+}

@@ -1,0 +1,35 @@
+{
+  "client_name": "McFie Insurance",
+  "slug": "mcfie",
+  "company": "McFie Insurance",
+  "website": "https://mcfieinsurance.com",
+  "phone": "702-660-7000",
+  "email": "Team@McFieInsurance.com",
+  "industry": "Participating whole life insurance (independent agency)",
+  "founder": "John T. McFie",
+  "headquarters": "Indianapolis, IN",
+  "description": "Independent participating whole life insurance agency. Not affiliated with Bank on Yourself or Infinite Banking Concepts, LLC. Specializes in designing policies for maximum cash value rather than just selling them.",
+  "mission": "Help people keep more of the money they make, grow their wealth, and have financial peace of mind.",
+  "framework": "Perpetual Wealth Code",
+  "two_criteria": [
+    "Is it affordable? If you can't pay the premium, you can't do it.",
+    "Is it comfortable? If it makes you uneasy, you won't stick with it."
+  ],
+  "key_differentiators": [
+    "Independent (not affiliated with Bank on Yourself or Infinite Banking Concepts, LLC)",
+    "Specializes in designing policies for maximum cash value, not just selling them",
+    "Uses the 'Perpetual Wealth Code' framework",
+    "Education before sales \u2014 no pressure",
+    "Positions life insurance as a financial asset, not an investment (U.S. Supreme Court agrees)",
+    "Can work with any life insurance company to find the best fit"
+  ],
+  "target_audience": [
+    "Existing clients and referral network",
+    "General public 35+, small business owners (Facebook)",
+    "28-45, entrepreneurial, lifestyle-conscious (Instagram)",
+    "Research-mode viewers, IBC-curious, Dave Ramsey skeptics (YouTube)",
+    "Subscribers and warm leads (email)"
+  ],
+  "status": "populated",
+  "source": "mcfie-content-hub skill (installed locally: /root/.claude/skills/mcfie-content-hub/references/*.md)"
+}

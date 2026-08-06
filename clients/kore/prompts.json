@@ -1,0 +1,67 @@
+{
+  "voices": [
+    {
+      "name": "Brand",
+      "description": "Professional, informative, authoritative. Confident but not arrogant.",
+      "best_for": "All KORE content unless another format is specified"
+    }
+  ],
+  "content_types": {
+    "blog": {
+      "length_words": "800-1200",
+      "structure": [
+        "TITLE (SEO-optimized, 55-65 characters)",
+        "SUBHEADLINE (optional, 1 sentence)",
+        "INTRO (2-3 paragraphs: hook, bridge, thesis)",
+        "BODY (3-5 H2 sections, one key idea each)",
+        "CONCLUSION (1-2 paragraphs: takeaway + forward-looking statement)",
+        "CTA (1-2 sentences, soft CTA)"
+      ],
+      "seo_rules": [
+        "Primary keyword in title, first 100 words, at least 2 H2s, and conclusion",
+        "Secondary keywords 1-3x throughout body",
+        "Meta description 150-160 characters including primary keyword",
+        "Flag internal links as [INTERNAL LINK: topic]",
+        "Flag external citations as [EXTERNAL LINK: source type]"
+      ]
+    },
+    "linkedin_post": {
+      "length_words": "150-300",
+      "tone": "Professional, insight-led",
+      "structure": [
+        "Hook line (stands alone, no 'We're excited to share...')",
+        "Value",
+        "CTA"
+      ]
+    },
+    "linkedin_carousel": {
+      "slides": "7-10",
+      "tone": "Educational, skimmable",
+      "structure": [
+        "Headline + 1-2 lines per slide"
+      ]
+    },
+    "x_twitter": {
+      "length": "1-2 tweets, <=280 chars each",
+      "tone": "Punchy, direct",
+      "structure": [
+        "Statement or question -> link"
+      ]
+    }
+  },
+  "cta_examples": [
+    "Ready to simplify your IoT deployment? Talk to a KORE expert."
+  ],
+  "quality_checklist": [
+    "Aligns with KORE voice and tone",
+    "Reinforces at least one messaging pillar (Flexible, Global, Scalable, Proven)",
+    "No unsubstantiated superlatives without a proof point",
+    "CTA included (blogs) or clear action (social)",
+    "For blogs: primary keyword in title, intro, and conclusion",
+    "For blogs: meta description written (<=160 characters)",
+    "Cross-checked against 2026 content log for duplication",
+    "No competitor brand names unless explicitly a comparison piece"
+  ],
+  "status": "populated",
+  "source": "kore-content-writer skill (installed locally: /root/.claude/skills/kore-content-writer/references/*.md)"
+}
