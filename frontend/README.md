@@ -26,6 +26,15 @@ user to never wonder what to click.
   Report** — all disabled until a run actually succeeds.
 - `os_actions.py` — `open_in_file_manager(path)`: Finder / Explorer /
   `xdg-open`, whichever the OS actually is; mockable in tests.
+- `credential_setup.py` — `credentials_present()` / `save_reddit_credentials()`
+  (writes `.env` next to the app, no restart needed) + `RedditSetupDialog`, a
+  modal "Connect to Reddit" window. Opens automatically on launch when no
+  Reddit key is set, and again if a run ever fails specifically because the
+  key is missing/invalid (`RunResult.credentials_missing`) — so a
+  non-technical user is never told to go find and hand-edit a `.env` file.
+  Reachable anytime via the **Settings → Reddit API Setup...** menu.
+  `MainWindow(..., check_credentials=False)` skips the automatic check
+  (used by tests, where no real key is ever set).
 - `app.py` — entrypoint; wires `backend.core.bootstrap` + `RedditService`,
   passes `output_dir` through to `MainWindow`
 

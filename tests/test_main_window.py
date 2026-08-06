@@ -36,7 +36,7 @@ class FakeRedditService:
         return (object(), self._markdown, Path(f"/tmp/clients/{client_id}/knowledge/reddit.md"))
 
 
-def _make_window(reddit_service=None, output_dir: Path | None = None):
+def _make_window(reddit_service=None, output_dir: Path | None = None, check_credentials: bool = False):
     from frontend.main_window import MainWindow
 
     clients = [
@@ -48,7 +48,15 @@ def _make_window(reddit_service=None, output_dir: Path | None = None):
     resolved_output_dir = output_dir or Path(tempfile.mkdtemp())
     try:
         window = MainWindow(
-            clients=clients, tools=tools, controller=controller, output_dir=resolved_output_dir
+            clients=clients,
+            tools=tools,
+            controller=controller,
+            output_dir=resolved_output_dir,
+            # Off by default here: these tests exercise the research workflow,
+            # not first-run setup, and this sandbox never has real Reddit
+            # credentials set — see test_credential_setup.py for the dialog
+            # itself, with check_credentials explicitly True.
+            check_credentials=check_credentials,
         )
         window.update()  # map the window — focus_get()/focus_set() need this under Xvfb
     except tk.TclError as exc:
@@ -430,5 +438,28 @@ def test_export_buttons_do_nothing_before_a_client_is_picked() -> None:
         window._on_save_for_notebooklm_click()
         window._on_open_export_folder_click()
         window._on_copy_report_click()
+    finally:
+        window.destroy()
+
+
+# --- window polish (icon, menu) ---------------------------------------------
+
+
+def test_window_icon_lookup_finds_the_bundled_ico(monkeypatch) -> None:
+    import frontend.main_window as main_window_module
+
+    monkeypatch.delattr("sys.frozen", raising=False)
+    path = main_window_module._windows_icon_path()
+    assert path is not None
+    assert path.name == "icon.ico"
+    assert path.is_file()
+
+
+def test_settings_menu_has_reddit_setup_entry() -> None:
+    window = _make_window()
+    try:
+        menu = window.nametowidget(window.cget("menu"))
+        settings_menu_index = menu.index("Settings")
+        assert settings_menu_index is not None
     finally:
         window.destroy()

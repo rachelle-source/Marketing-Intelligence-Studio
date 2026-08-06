@@ -27,13 +27,16 @@ from __future__ import annotations
 
 import queue
 import re
+import sys
 import threading
 import tkinter as tk
 from pathlib import Path
 from tkinter import scrolledtext
 
+from backend.config import PROJECT_ROOT
 from backend.reddit.export import export_report_markdown
 from frontend.client_discovery import ClientSummary
+from frontend.credential_setup import RedditSetupDialog, credentials_present
 from frontend.os_actions import open_in_file_manager
 from frontend.run_controller import RunController, RunResult
 from frontend.tools import ToolDefinition
@@ -60,6 +63,20 @@ _BOLD_RE = re.compile(r"\*\*(.+?)\*\*")
 _LINK_RE = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
 
 
+def _windows_icon_path() -> Path | None:
+    """Where to find the bundled Windows icon at runtime, if any.
+
+    Only meaningful on Windows: Tk's ``iconbitmap`` only accepts the .ico
+    format, so this is a deliberate no-op on macOS/Linux, both of which
+    raise ``TclError`` for it (caught by the caller) — macOS gets its dock
+    icon from the .app bundle itself (see packaging/pyinstaller.spec)
+    instead, and Tk windows there don't show a title-bar icon at all.
+    """
+    base = Path(getattr(sys, "_MEIPASS", "")) if getattr(sys, "frozen", False) else PROJECT_ROOT
+    candidate = base / "packaging" / "assets" / "icon.ico"
+    return candidate if candidate.exists() else None
+
+
 class MainWindow(tk.Tk):
     def __init__(
         self,
@@ -67,6 +84,7 @@ class MainWindow(tk.Tk):
         tools: list[ToolDefinition],
         controller: RunController,
         output_dir: Path,
+        check_credentials: bool = True,
     ) -> None:
         super().__init__()
         self._clients = clients
@@ -87,9 +105,40 @@ class MainWindow(tk.Tk):
 
         self.title(WINDOW_TITLE)
         self.geometry(WINDOW_SIZE)
+        self.minsize(760, 560)
+        self._set_window_icon()
 
+        self._build_menu()
         self._build_widgets()
         self._populate_lists()
+        if check_credentials:
+            self._maybe_show_credential_setup()
+
+    def _set_window_icon(self) -> None:
+        icon_path = _windows_icon_path()
+        if icon_path is None:
+            return
+        try:
+            self.iconbitmap(default=str(icon_path))
+        except tk.TclError:
+            pass  # e.g. running on Linux/macOS, where Tk can't load .ico
+
+    def _build_menu(self) -> None:
+        menu_bar = tk.Menu(self)
+        settings_menu = tk.Menu(menu_bar, tearoff=False)
+        settings_menu.add_command(label="Reddit API Setup...", command=self._open_credential_setup_dialog)
+        menu_bar.add_cascade(label="Settings", menu=settings_menu)
+        self.configure(menu=menu_bar)
+
+    def _maybe_show_credential_setup(self) -> None:
+        if not credentials_present():
+            self._open_credential_setup_dialog()
+
+    def _open_credential_setup_dialog(self) -> None:
+        RedditSetupDialog(self, on_saved=self._on_credentials_saved)
+
+    def _on_credentials_saved(self) -> None:
+        self._status_var.set(f"{self._base_status} — Reddit connected. You're ready to run a search.")
 
     def _build_widgets(self) -> None:
         lists_frame = tk.Frame(self)
@@ -170,11 +219,11 @@ class MainWindow(tk.Tk):
 
     def _populate_lists(self) -> None:
         for client in self._clients:
-            suffix = "" if client.status == "populated" else "  [no source data]"
+            suffix = "" if client.status == "populated" else "  (profile not set up yet)"
             self._client_listbox.insert("end", f"{client.display_name}{suffix}")
 
         for index, tool in enumerate(self._tools):
-            suffix = "" if tool.available else "  [not available]"
+            suffix = "" if tool.available else "  (coming soon)"
             self._tool_listbox.insert("end", f"{tool.name}{suffix}")
             if not tool.available:
                 self._tool_listbox.itemconfig(index, fg=DIMMED_COLOR)
@@ -291,7 +340,9 @@ class MainWindow(tk.Tk):
             self._ready_topic_for_next_run()
         else:
             self._set_export_buttons_state("disabled")
-            if result.needs_focus == "client":
+            if result.credentials_missing:
+                self._open_credential_setup_dialog()
+            elif result.needs_focus == "client":
                 self._client_listbox.focus_set()
             elif result.needs_focus == "topic":
                 self._topic_entry.focus_set()

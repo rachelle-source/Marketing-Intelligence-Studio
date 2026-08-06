@@ -12,6 +12,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from backend.core.errors import AppError
+from backend.reddit.errors import RedditCredentialsError
 from backend.reddit.service import RedditService
 from frontend.client_discovery import ClientSummary
 from frontend.tools import ToolDefinition
@@ -26,6 +27,10 @@ class RunResult:
     ``needs_focus`` names which control the UI should return keyboard focus
     to on failure ("client" or "topic") so the user's next keystroke lands
     where they actually need to act, instead of them having to find it.
+
+    ``credentials_missing`` flags a failure specifically caused by a missing
+    or invalid Reddit API key, so the UI can re-open the setup dialog instead
+    of leaving the user stuck on a dead-end error message.
     """
 
     success: bool
@@ -33,6 +38,7 @@ class RunResult:
     duration_seconds: float | None = None
     saved_to: str | None = None
     needs_focus: str | None = None
+    credentials_missing: bool = False
 
 
 def _short_path(path: Path) -> str:
@@ -59,7 +65,9 @@ class RunController:
         if tool is None:
             return RunResult(False, "Select a tool first.")
         if not tool.available:
-            return RunResult(False, f"{tool.name} is not implemented yet — see {tool.backing_module}.")
+            return RunResult(
+                False, f"{tool.name} isn't available yet — it's on the roadmap. Try Reddit Research for now."
+            )
         if tool.requires_topic and not topic.strip():
             return RunResult(
                 False, f"{tool.name} needs a topic. Enter one and click Run again.", needs_focus="topic"
@@ -76,6 +84,15 @@ class RunController:
         try:
             _session, report_markdown, saved_path = self._reddit_service.run_and_report(
                 client.slug, topic
+            )
+        except RedditCredentialsError:
+            elapsed = time.perf_counter() - started
+            logger.warning("Reddit research failed for client=%s topic=%r: missing credentials", client.slug, topic)
+            return RunResult(
+                False,
+                "Reddit isn't connected yet. Add your Reddit API key in the setup window that just opened.",
+                elapsed,
+                credentials_missing=True,
             )
         except AppError as exc:
             elapsed = time.perf_counter() - started

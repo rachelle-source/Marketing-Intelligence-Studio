@@ -218,6 +218,41 @@ All three stay disabled until a run has actually succeeded — there's
 nothing to save, open, or copy before that — and re-disable if a
 subsequent run fails, so they never act on stale content.
 
+## Packaging & distribution (Version 1 release)
+
+Non-technical team members run Marketing Intelligence Studio as a
+double-click desktop app — no Python, no Git, no command line:
+
+- **`packaging/pyinstaller.spec`** — bundles the Python interpreter,
+  tkinter, and every pip dependency (including PRAW) into a single app.
+  PyInstaller cannot cross-compile, so Windows and macOS builds each run on
+  their own OS.
+- **`.github/workflows/build-release.yml`** — builds both the Windows
+  `.exe` and macOS `.app` on real `windows-latest`/`macos-latest` GitHub
+  Actions runners, on `workflow_dispatch` or a `v*` tag push, and uploads
+  each as a downloadable zip.
+- **`Release/`** — the assembled Version 1 distributable: the app zips
+  (see `Release/README.md` for how to fetch them from a workflow run),
+  `clients/`, `.env.example`, and `HOW TO INSTALL.txt`, a non-technical
+  install/setup guide.
+- **Frozen-path handling** (`backend/config.py`) — a packaged app can't use
+  `.env`/logs/data paths relative to `__file__` (that resolves inside a
+  temporary or read-only bundle folder). Frozen builds instead resolve
+  everything relative to the folder the user can actually see and edit: the
+  one containing the `.exe`, or the one containing the `.app` bundle.
+- **No `.env` hand-editing required** (`frontend/credential_setup.py`) — a
+  "Connect to Reddit" dialog opens automatically the first time the app
+  launches with no Reddit key set (and again if a run ever fails because the
+  key is missing or wrong), so setup is two pasted values in a window, not a
+  text file to find and edit. Reachable anytime via **Settings → Reddit API
+  Setup...**.
+- **A real app icon** (`packaging/assets/icon.ico` / `icon.icns`) — so the
+  `.exe`/`.app` doesn't show a generic default icon in the taskbar, dock, or
+  file explorer.
+
+To build locally: `packaging/build_windows.bat` (Windows) or
+`packaging/build_macos.sh` (macOS).
+
 ## Architectural decisions
 
 **Why most services are still interfaces (`ABC`), not implementations.**

@@ -52,12 +52,14 @@ def test_no_tool_selected() -> None:
     assert "tool" in result.message.lower()
 
 
-def test_unavailable_tool_reports_not_implemented() -> None:
+def test_unavailable_tool_reports_plain_language_not_ready_message() -> None:
+    # Non-technical users should never see an internal module/class name.
     controller = RunController(FakeRedditService())
     result = controller.run(CLIENT, UNAVAILABLE_TOOL, "")
     assert result.success is False
-    assert "not implemented" in result.message.lower()
-    assert "AIService" in result.message
+    assert "isn't available yet" in result.message
+    assert "AIService" not in result.message
+    assert "ai_service" not in result.message
 
 
 def test_reddit_research_without_topic_asks_for_one() -> None:
