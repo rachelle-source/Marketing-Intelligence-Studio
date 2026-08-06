@@ -30,17 +30,21 @@ Marketing-Intelligence-Studio/
 │   │   ├── report.py               renders RedditResearchReport -> Markdown; saves/appends
 │   │   │                           into clients/<slug>/knowledge/reddit.md
 │   │   ├── service.py              RedditService (ResearchService impl); per-query failure
-│   │   │                           isolation; run_and_report() -> (session, markdown)
+│   │   │                           isolation; run_and_report() -> (session, markdown, saved_path)
+│   │   ├── export.py               standalone NotebookLM-ready export:
+│   │   │                           output/<client>/<date>_<topic>.md
 │   │   ├── models.py               shared normalized data model
 │   │   └── errors.py               RedditCredentialsError / RedditSearchError
 │   └── lint/                    TODO: placeholder for the existing draft linter
 │
-├── frontend/                    Desktop GUI (Tkinter) — v2, plain but working
+├── frontend/                    Desktop GUI (Tkinter) — v4, plain but working
 │   ├── client_discovery.py         reads clients/<slug>/profile.json
 │   ├── tools.py                    marketing tool registry
 │   ├── run_controller.py           (client, tool, topic) -> backend calls, Tk-free
 │   ├── main_window.py              the Tk window; threaded Run, Enter-to-run, full
-│   │                               report display, elapsed-time status
+│   │                               report display, elapsed-time status, Save for
+│   │                               NotebookLM / Open Export Folder / Copy Report buttons
+│   ├── os_actions.py               open_in_file_manager() — cross-platform folder opener
 │   └── app.py                      entrypoint: python -m frontend.app
 │
 ├── clients/                     per-client intelligence (see clients/README.md)
@@ -67,7 +71,8 @@ Marketing-Intelligence-Studio/
 │           └── reddit.md
 │
 ├── logs/                        app.log (rotating), git-ignored except .gitkeep
-├── output/                      generated exports, git-ignored except .gitkeep
+├── output/                      NotebookLM-ready exports, one folder per client
+│                                 (<slug>/<date>_<topic>.md), git-ignored except .gitkeep
 ├── data/                        SQLite database file, git-ignored except .gitkeep
 ├── tests/                       pytest suite for the backend foundation
 ├── docs/                        product/design/engineering doc packs

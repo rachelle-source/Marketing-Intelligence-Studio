@@ -33,7 +33,9 @@ def main() -> None:
     controller = RunController(reddit_service=reddit_service)
 
     logger.info("Launching desktop UI with %d client(s), %d tool(s)", len(clients), len(tools))
-    window = MainWindow(clients=clients, tools=tools, controller=controller)
+    window = MainWindow(
+        clients=clients, tools=tools, controller=controller, output_dir=context.config.output_dir
+    )
     window.mainloop()
 
 

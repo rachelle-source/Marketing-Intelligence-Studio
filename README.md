@@ -190,6 +190,34 @@ client, type a topic, click Run* — needs zero learning:
 - Research still runs on a background thread (the window stays responsive
   for however long the search takes) and Enter runs it, same as before.
 
+## Getting research into NotebookLM
+
+The team's long-term knowledge base is [NotebookLM](https://notebooklm.google.com/),
+not this app — Version 1 deliberately does not integrate with it via any
+API. Instead, three buttons below the report make hand-off manual but
+effortless:
+
+```
+Research  ->  Save for NotebookLM  ->  Drag into NotebookLM  ->  Done.
+```
+
+- **Save for NotebookLM** — writes the report on screen to a standalone
+  Markdown file at `output/<client-slug>/<date>_<topic-slug>.md`
+  (`backend/reddit/export.py`). One file per client per topic per day —
+  running the same topic again the same day overwrites it, since this is a
+  clean snapshot for NotebookLM, not a history (`knowledge/reddit.md`, saved
+  automatically on every run, is the history).
+- **Open Export Folder** — opens that client's `output/<slug>/` folder in
+  the OS file manager (Finder / Explorer / whatever Linux is running) via
+  `frontend/os_actions.py`, so the exported file is one drag away from
+  NotebookLM.
+- **Copy Report** — puts the exact same Markdown on the clipboard, for
+  pasting anywhere that isn't a file drop (Slack, an email, a doc).
+
+All three stay disabled until a run has actually succeeded — there's
+nothing to save, open, or copy before that — and re-disable if a
+subsequent run fails, so they never act on stale content.
+
 ## Architectural decisions
 
 **Why most services are still interfaces (`ABC`), not implementations.**
@@ -409,6 +437,39 @@ marketer researching one client rarely stops at one topic. Returning focus
 to the topic field with the previous topic already selected means typing
 the next topic and hitting Enter is the entire "run it again" action — no
 click back into the field, no clearing it first.
+
+**Why NotebookLM export is three plain buttons instead of an API
+integration.** Explicitly out of scope for Version 1 — the team's knowledge
+base is NotebookLM itself, and NotebookLM has no public API to push
+documents into. The realistic handoff is a human dragging a file, so the
+job here is to make that one drag as easy as possible: a well-named file,
+one click to the folder that contains it, one click to get there.
+
+**Why the export isn't wired through `ExportService`.** That interface's
+`export_markdown(content_id)` takes a `Content` record — AI Writer output,
+not a research report. Bending it to fit would mean inventing a `Content`
+row for something that was never one. `backend/reddit/export.py` is
+purpose-built for this one job instead; `ExportService` stays reserved for
+when `AIService` actually produces `Content` to export.
+
+**Why the export is a one-file-per-day snapshot, not a history.** The
+client's `knowledge/reddit.md` already accumulates every run permanently —
+duplicating that into `output/` would mean two histories to keep straight.
+`output/<client>/<date>_<topic>.md` is deliberately a disposable, current
+snapshot: run the same topic again the same day, and it overwrites, because
+its only job is "the thing you're about to drag into NotebookLM right now."
+
+**Why the report gets promoted from `##` to `#` for the exported file.**
+Inside `knowledge/reddit.md`, each run is one section under that file's own
+title, so it starts at `##`. As its own standalone file, it should read as
+a document with its own title, not a headless fragment — a one-line fix
+(`_promote_title`) rather than a second render path.
+
+**Why Save / Open Folder / Copy start disabled and stay disabled after a
+failed run.** All three act on "the report currently on screen." Before a
+run, or after a failed one, there isn't one — leaving them clickable would
+let someone export or copy stale content from a previous client/topic
+without realizing it.
 
 ## Pending work
 

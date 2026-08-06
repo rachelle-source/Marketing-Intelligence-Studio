@@ -13,6 +13,14 @@ window would freeze (no redraw, "Not Responding" on Windows) for the
 duration of every search. Results come back through a thread-safe queue,
 polled from the main thread via `after()`, which is the standard safe way to
 touch Tk widgets from a background thread's result.
+
+The intended handoff to NotebookLM (the team's long-term knowledge base) is:
+
+    Research -> Save for NotebookLM -> Drag into NotebookLM -> Done.
+
+So the three buttons below the report (Save for NotebookLM / Open Export
+Folder / Copy Report) all act on "the report currently on screen" and stay
+disabled until there is one.
 """
 
 from __future__ import annotations
@@ -21,14 +29,17 @@ import queue
 import re
 import threading
 import tkinter as tk
+from pathlib import Path
 from tkinter import scrolledtext
 
+from backend.reddit.export import export_report_markdown
 from frontend.client_discovery import ClientSummary
+from frontend.os_actions import open_in_file_manager
 from frontend.run_controller import RunController, RunResult
 from frontend.tools import ToolDefinition
 
 WINDOW_TITLE = "Marketing Intelligence Studio"
-WINDOW_SIZE = "900x680"
+WINDOW_SIZE = "900x720"
 QUEUE_POLL_INTERVAL_MS = 100
 DIMMED_COLOR = "#999999"
 
@@ -40,7 +51,9 @@ WELCOME_MESSAGE = (
     '2. Type a topic above — try "pricing" or "reliability".\n'
     "3. Click Run, or just press Enter.\n\n"
     "The report will appear here, and is saved automatically to that "
-    "client's knowledge base for next time."
+    "client's knowledge base for next time.\n\n"
+    "When it's ready, use Save for NotebookLM to export a clean copy for "
+    "the team's knowledge base, or Copy Report to paste it elsewhere."
 )
 
 _BOLD_RE = re.compile(r"\*\*(.+?)\*\*")
@@ -53,17 +66,24 @@ class MainWindow(tk.Tk):
         clients: list[ClientSummary],
         tools: list[ToolDefinition],
         controller: RunController,
+        output_dir: Path,
     ) -> None:
         super().__init__()
         self._clients = clients
         self._tools = tools
         self._controller = controller
+        self._output_dir = output_dir
         self._base_status = ""
         self._running = False
         self._result_queue: queue.Queue[RunResult] = queue.Queue()
         self._last_thread: threading.Thread | None = None
         self._poll_job: str | None = None
         self._topic_placeholder_active = False
+
+        # The report currently on screen, for the export/copy buttons.
+        self._last_client: ClientSummary | None = None
+        self._last_topic: str | None = None
+        self._last_report_markdown: str | None = None
 
         self.title(WINDOW_TITLE)
         self.geometry(WINDOW_SIZE)
@@ -111,11 +131,35 @@ class MainWindow(tk.Tk):
         )
 
         output_frame = tk.Frame(self)
-        output_frame.pack(side="top", fill="both", expand=True, padx=10, pady=(0, 10))
+        output_frame.pack(side="top", fill="both", expand=True, padx=10, pady=(0, 6))
         tk.Label(output_frame, text="Report").pack(anchor="w")
-        self._output_text = scrolledtext.ScrolledText(output_frame, height=20, state="disabled", wrap="word")
+        self._output_text = scrolledtext.ScrolledText(output_frame, height=18, state="disabled", wrap="word")
         self._output_text.pack(fill="both", expand=True)
         self._configure_report_tags()
+
+        export_frame = tk.Frame(self)
+        export_frame.pack(side="top", fill="x", padx=10, pady=(0, 10))
+        self._save_button = tk.Button(
+            export_frame,
+            text="Save for NotebookLM",
+            command=self._on_save_for_notebooklm_click,
+            state="disabled",
+        )
+        self._save_button.pack(side="left")
+        self._open_folder_button = tk.Button(
+            export_frame,
+            text="Open Export Folder",
+            command=self._on_open_export_folder_click,
+            state="disabled",
+        )
+        self._open_folder_button.pack(side="left", padx=(6, 0))
+        self._copy_button = tk.Button(
+            export_frame,
+            text="Copy Report",
+            command=self._on_copy_report_click,
+            state="disabled",
+        )
+        self._copy_button.pack(side="left", padx=(6, 0))
 
     def _configure_report_tags(self) -> None:
         self._output_text.tag_configure("h2", font=("TkDefaultFont", 14, "bold"), spacing3=8)
@@ -201,6 +245,7 @@ class MainWindow(tk.Tk):
 
         self._running = True
         self._run_button.configure(state="disabled")
+        self._set_export_buttons_state("disabled")
         self._status_var.set(f"{self._base_status} — Running…")
         self._set_output_text("Running Reddit research — this can take a few seconds…")
 
@@ -239,11 +284,22 @@ class MainWindow(tk.Tk):
         self._set_output_text(result.message)
 
         if result.success:
+            self._last_client = self._selected_client()
+            self._last_topic = self._topic_text().strip()
+            self._last_report_markdown = result.message
+            self._set_export_buttons_state("normal")
             self._ready_topic_for_next_run()
-        elif result.needs_focus == "client":
-            self._client_listbox.focus_set()
-        elif result.needs_focus == "topic":
-            self._topic_entry.focus_set()
+        else:
+            self._set_export_buttons_state("disabled")
+            if result.needs_focus == "client":
+                self._client_listbox.focus_set()
+            elif result.needs_focus == "topic":
+                self._topic_entry.focus_set()
+
+    def _set_export_buttons_state(self, state: str) -> None:
+        self._save_button.configure(state=state)
+        self._open_folder_button.configure(state=state)
+        self._copy_button.configure(state=state)
 
     def _ready_topic_for_next_run(self) -> None:
         """After a successful run, put the cursor back in the topic field
@@ -254,6 +310,29 @@ class MainWindow(tk.Tk):
             return
         self._topic_entry.focus_set()
         self._topic_entry.selection_range(0, "end")
+
+    def _on_save_for_notebooklm_click(self) -> None:
+        if not self._last_client or not self._last_report_markdown:
+            return
+        path = export_report_markdown(
+            self._output_dir, self._last_client.slug, self._last_topic or "topic", self._last_report_markdown
+        )
+        short_path = "/".join(path.parts[-3:])
+        self._status_var.set(f"{self._base_status} — Saved for NotebookLM: {short_path}")
+
+    def _on_open_export_folder_click(self) -> None:
+        if not self._last_client:
+            return
+        folder = self._output_dir / self._last_client.slug
+        open_in_file_manager(folder)
+        self._status_var.set(f"{self._base_status} — Opened {self._last_client.slug}/ in your file manager")
+
+    def _on_copy_report_click(self) -> None:
+        if not self._last_report_markdown:
+            return
+        self.clipboard_clear()
+        self.clipboard_append(self._last_report_markdown)
+        self._status_var.set(f"{self._base_status} — Report copied to clipboard")
 
     def _set_output_text(self, text: str) -> None:
         self._output_text.configure(state="normal")

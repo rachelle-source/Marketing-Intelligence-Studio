@@ -14,6 +14,7 @@ directly instead of waiting on Tk's event loop, then call
 
 from __future__ import annotations
 
+import tempfile
 from pathlib import Path
 
 import pytest
@@ -35,7 +36,7 @@ class FakeRedditService:
         return (object(), self._markdown, Path(f"/tmp/clients/{client_id}/knowledge/reddit.md"))
 
 
-def _make_window(reddit_service=None):
+def _make_window(reddit_service=None, output_dir: Path | None = None):
     from frontend.main_window import MainWindow
 
     clients = [
@@ -44,8 +45,11 @@ def _make_window(reddit_service=None):
     ]
     tools = list_marketing_tools()
     controller = RunController(reddit_service or FakeRedditService())
+    resolved_output_dir = output_dir or Path(tempfile.mkdtemp())
     try:
-        window = MainWindow(clients=clients, tools=tools, controller=controller)
+        window = MainWindow(
+            clients=clients, tools=tools, controller=controller, output_dir=resolved_output_dir
+        )
         window.update()  # map the window — focus_get()/focus_set() need this under Xvfb
     except tk.TclError as exc:
         pytest.skip(f"no display available for Tk: {exc}")
@@ -311,5 +315,120 @@ def test_initial_focus_is_on_client_list() -> None:
     window = _make_window()
     try:
         assert window.focus_get() is window._client_listbox
+    finally:
+        window.destroy()
+
+
+# --- export buttons (Save for NotebookLM / Open Export Folder / Copy Report) ---
+
+
+def test_export_buttons_disabled_before_any_run() -> None:
+    window = _make_window()
+    try:
+        assert str(window._save_button["state"]) == "disabled"
+        assert str(window._open_folder_button["state"]) == "disabled"
+        assert str(window._copy_button["state"]) == "disabled"
+    finally:
+        window.destroy()
+
+
+def test_export_buttons_enabled_after_successful_run(tmp_path: Path) -> None:
+    window = _make_window(output_dir=tmp_path)
+    try:
+        window._client_listbox.selection_set(0)
+        _set_topic(window, "pricing")
+        _run_and_wait(window)
+
+        assert str(window._save_button["state"]) == "normal"
+        assert str(window._open_folder_button["state"]) == "normal"
+        assert str(window._copy_button["state"]) == "normal"
+    finally:
+        window.destroy()
+
+
+def test_export_buttons_disabled_again_after_a_failed_run(tmp_path: Path) -> None:
+    window = _make_window(output_dir=tmp_path)
+    try:
+        window._client_listbox.selection_set(0)
+        _set_topic(window, "pricing")
+        _run_and_wait(window)
+        assert str(window._save_button["state"]) == "normal"
+
+        # A second run with no client selected should disable them again.
+        window._client_listbox.selection_clear(0, "end")
+        _run_and_wait(window)
+
+        assert str(window._save_button["state"]) == "disabled"
+        assert str(window._open_folder_button["state"]) == "disabled"
+        assert str(window._copy_button["state"]) == "disabled"
+    finally:
+        window.destroy()
+
+
+def test_save_for_notebooklm_writes_a_file(tmp_path: Path) -> None:
+    fake_service = FakeRedditService(markdown="## Reddit Research Brief — \"pricing\"\n\nfindings")
+    window = _make_window(fake_service, output_dir=tmp_path)
+    try:
+        window._client_listbox.selection_set(0)
+        _set_topic(window, "pricing")
+        _run_and_wait(window)
+
+        window._on_save_for_notebooklm_click()
+
+        files = list((tmp_path / "kore").glob("*.md"))
+        assert len(files) == 1
+        assert "pricing" in files[0].name
+        content = files[0].read_text(encoding="utf-8")
+        assert content.startswith("# Reddit Research Brief")
+        assert "findings" in content
+        assert "Saved for NotebookLM" in window._status_var.get()
+    finally:
+        window.destroy()
+
+
+def test_open_export_folder_calls_the_os_helper(tmp_path: Path, monkeypatch) -> None:
+    import frontend.main_window as main_window_module
+
+    calls = []
+    monkeypatch.setattr(main_window_module, "open_in_file_manager", lambda p: calls.append(p))
+
+    window = _make_window(output_dir=tmp_path)
+    try:
+        window._client_listbox.selection_set(0)
+        _set_topic(window, "pricing")
+        _run_and_wait(window)
+
+        window._on_open_export_folder_click()
+
+        assert calls == [tmp_path / "kore"]
+        assert "Opened kore/" in window._status_var.get()
+    finally:
+        window.destroy()
+
+
+def test_copy_report_puts_markdown_on_clipboard(tmp_path: Path) -> None:
+    fake_service = FakeRedditService(markdown="## Report\n\nsome findings to copy")
+    window = _make_window(fake_service, output_dir=tmp_path)
+    try:
+        window._client_listbox.selection_set(0)
+        _set_topic(window, "pricing")
+        _run_and_wait(window)
+
+        window._on_copy_report_click()
+        window.update()
+
+        assert window.clipboard_get() == "## Report\n\nsome findings to copy"
+        assert "copied to clipboard" in window._status_var.get()
+    finally:
+        window.destroy()
+
+
+def test_export_buttons_do_nothing_before_a_client_is_picked() -> None:
+    # Defensive: clicking them with no last-run state must not raise.
+    window = _make_window()
+    try:
+        window._on_save_for_notebooklm_click()
+        window._on_open_export_folder_click()
+        window._on_copy_report_click()
     finally:
         window.destroy()
