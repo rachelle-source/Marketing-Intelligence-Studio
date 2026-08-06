@@ -1,0 +1,75 @@
+name: Build Release
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            platform: windows
+          - os: macos-latest
+            platform: macos
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Build with PyInstaller
+        run: pyinstaller packaging/pyinstaller.spec --noconfirm --distpath dist --workpath build
+
+      - name: Assemble Windows package
+        if: matrix.platform == 'windows'
+        shell: bash
+        run: |
+          set -euo pipefail
+          PKG="package/Marketing Intelligence Studio"
+          mkdir -p "$PKG"
+          cp -r "dist/Marketing Intelligence Studio"/* "$PKG/"
+          cp -r clients "$PKG/clients"
+          cp .env.example "$PKG/.env.example"
+          cp packaging/INSTALL.md "$PKG/HOW TO INSTALL.txt"
+
+      - name: Assemble macOS package
+        if: matrix.platform == 'macos'
+        run: |
+          set -euo pipefail
+          PKG="package"
+          mkdir -p "$PKG"
+          cp -r "dist/Marketing Intelligence Studio.app" "$PKG/"
+          cp -r clients "$PKG/clients"
+          cp .env.example "$PKG/.env.example"
+          cp packaging/INSTALL.md "$PKG/HOW TO INSTALL.txt"
+
+      - name: Zip package (Windows)
+        if: matrix.platform == 'windows'
+        shell: pwsh
+        run: Compress-Archive -Path "package/*" -DestinationPath "MarketingIntelligenceStudio-Windows.zip"
+
+      - name: Zip package (macOS)
+        if: matrix.platform == 'macos'
+        run: |
+          set -euo pipefail
+          cd package
+          zip -r "../MarketingIntelligenceStudio-macOS.zip" .
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MarketingIntelligenceStudio-${{ matrix.platform == 'windows' && 'Windows' || 'macOS' }}
+          path: MarketingIntelligenceStudio-${{ matrix.platform == 'windows' && 'Windows' || 'macOS' }}.zip
+          retention-days: 90

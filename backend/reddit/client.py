@@ -32,6 +32,9 @@ import praw
 from praw.exceptions import PRAWException
 from prawcore.exceptions import PrawcoreException
 
+import backend.config  # noqa: F401 - importing it loads .env into os.environ,
+# so REDDIT_CLIENT_ID/SECRET below are populated even if this module is used
+# without going through backend.core.bootstrap first.
 from backend.reddit.errors import RedditCredentialsError, RedditSearchError
 from backend.reddit.models import RedditComment, RedditPost
 
