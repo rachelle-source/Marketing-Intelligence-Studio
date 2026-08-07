@@ -59,6 +59,31 @@
     },
     "website_copy": {
       "tone": "Clear, benefit-driven, scannable, SEO-aware"
+    },
+    "educational_binder": {
+      "note": "More advanced/structured than the other content types — from the `insurance-binder-builder` skill document (provided directly by user, 2026-08-07). Structured, page-by-page downloadable PDF-ready binders for lead magnets, client education, or pre-appointment materials. Not a sales piece.",
+      "default_length_pages": "12-20 (adjustable: 8-12 short/lead-magnet, 20-30 extended/reference-guide)",
+      "standard_15_page_flow": [
+        "Pages 1-3: Framing & Context — why the topic matters, the common advice most people hear, why that advice exists (fair and respectful)",
+        "Pages 4-7: What's Missing — what the common advice doesn't address, hidden assumptions, where people get confused, why confusion leads to flawed comparisons",
+        "Pages 8-11: Side-by-Side Thinking — control vs. growth, liquidity vs. restriction, risk exposure vs. guarantees, flexibility vs. optimization",
+        "Pages 12-14: Reframing the Decision — better questions to ask, who this may be appropriate for, who it is NOT appropriate for",
+        "Page 15: Educational Close — reflection, learning, optional next steps (no sales pressure)"
+      ],
+      "tone_options": {
+        "educational_professional": "Third-person, formal, technical accuracy, comprehensive — best for financial professionals, high-net-worth individuals, business owners",
+        "conversational_accessible": "Second-person, simpler language, analogies, Q&A format — best for general consumers, skeptical audiences, first-time learners",
+        "hybrid_recommended": "Start conversational in framing, shift professional in detail sections, return conversational in application/close"
+      },
+      "non_negotiable_constraints": [
+        "No promised returns — never guarantee specific percentages or outcomes",
+        "No hype language (\"amazing\", \"incredible\", \"revolutionary\", \"secret\")",
+        "No universal claims (\"this works for everyone\", \"always the best choice\")",
+        "No attacks on other strategies, advisors, or financial personalities",
+        "Acknowledge tradeoffs — every strategy has pros and cons",
+        "Always include who the strategy is NOT appropriate for",
+        "Visual direction required for every page (never leave a page text-only for the designer)"
+      ]
     }
   },
   "cta_examples": [

@@ -1,8 +1,34 @@
 {
-  "positioning_statement": null,
-  "competitors": [],
-  "rules": [],
-  "status": "no_source_data",
-  "source": null,
-  "notes": "No existing client information was found for this client anywhere in the repository, its git history, or installed content skills as of 2026-08-06. This file is a structural placeholder only \u2014 do not treat any field below as real brand/business data. Populate from the real client brief before use."
+  "positioning_statement": "8MSolar is an engineering-grade partner — not just a contractor who installs solar — that designs, installs, monitors, and guarantees systems for decades. Differentiation comes from in-house Chapter 87 professional engineers, hardware-agnostic equipment choice, and #1-by-volume installation data in NC, verified by a third party (Solar Power World Online).",
+  "named_competitors": [
+    {
+      "name": "Southern Energy Management (SEM)",
+      "notes": "Credible NC competitor without an in-house Chapter 87 engineering license. Article tone: acknowledge SEM as credible, then let the credentials gap do the persuading — never a takedown."
+    },
+    {
+      "name": "NC Solar Now",
+      "notes": "Closer competitor — both Raleigh-based, both Chapter 87 licensed, both NABCEP certified. Differentiation has to come from operational depth (full-time in-house PE) and third-party-verified installation volume (8,414 kW vs 5,828 kW, Solar Power World Online 2025), not credentials alone."
+    },
+    {
+      "name": "Yes Solar Solutions",
+      "notes": "Smaller by volume (1,942 kW, 2019 — their most recent public figure) but holds genuine NABCEP company accreditation. Differentiation angle: service bandwidth/company longevity for post-installation support, and manufacturer-warranty-survival risk (hardware-agnostic vs. single-manufacturer lock-in)."
+    },
+    {
+      "name": "Renu Energy Solutions",
+      "notes": "Charlotte-based (8MSolar is Raleigh-based) — geographically distinct market. 6,630 kW installed (2024) vs 8MSolar's 8,414 kW. Renu offers a 5-year production guarantee; use pointed claims about guarantee effectiveness sparingly and only with a real basis."
+    },
+    {
+      "name": "Blue Raven Solar",
+      "notes": "National/franchise competitor (SunPower subsidiary, HQ in Utah), not a local NC/VA company. Differentiation frame: local accountability and continuity vs. centralized national support. Blue Raven's appeal (single-day installs, $0 down, 18 months covered loan payments) should be acknowledged honestly, then contrasted with what happens after that introductory period."
+    }
+  ],
+  "rules": [
+    "Never trash a competitor directly — acknowledge them as credible, let credentials/specifics do the persuading",
+    "Use third-party-sourced installation volume (kW) data when available — the most credible differentiator in the library",
+    "Frame competitor comparisons as fair, not a hit piece — this makes 8MSolar's stronger claims land harder",
+    "Address price questions directly (never dodge) and reframe toward long-term value",
+    "For national competitors, argue the relationship is structurally different (local accountability), not that national is 'bad'"
+  ],
+  "status": "populated",
+  "source": "8msolar-content-hub skill document, provided directly by user, 2026-08-07"
 }

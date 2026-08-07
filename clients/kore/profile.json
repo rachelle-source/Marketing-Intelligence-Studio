@@ -13,12 +13,14 @@
     "carrier_partners": "40+",
     "hardware_partners": "30+",
     "logistics_hubs": 4,
-    "gartner_magic_quadrant_years": 6,
-    "gartner_peer_reviews": "91+ (4.3 stars)"
+    "gartner_magic_quadrant_years": "6 consecutive years (5x Leader, most recently Visionary in March 2025)",
+    "gartner_peer_reviews": "91+ (4.3 stars)",
+    "omnisim": "500 networks, 195 countries, GSMA SGP.02-based, automatic network failover"
   },
   "description": "Global IoT connectivity leader providing enterprise IoT connectivity infrastructure built for real-world deployment at global scale.",
   "mission": "Connected devices make the world smarter, and we help businesses achieve this. By simplifying IoT adoption, we earn customers' trust to deploy, manage, and scale solutions, solving complex challenges and enhancing financial and operational performance.",
-  "core_promise": "Enterprise IoT connectivity infrastructure \u2014 built for real-world deployment at global scale.",
+  "who_kore_is": "A pioneer, leader, and trusted advisor delivering mission-critical IoT solutions and services — empowering organizations of all sizes to improve operational and business results by simplifying the complexity of IoT.",
+  "core_promise": "Enterprise IoT connectivity infrastructure — built for real-world deployment at global scale.",
   "brand_values": [
     "Innovation",
     "One Team",
@@ -26,6 +28,11 @@
     "Equality and Diversity",
     "Results Focused",
     "Supportive and Collaborative"
+  ],
+  "brand_vision_pillars": [
+    "Simplified IoT Deployments — turn-key capabilities to launch and manage IoT solutions",
+    "Accelerated Time to Market — carrier-agnostic validation, certification, and app configuration",
+    "Maximize ROI — editable provisioning and management for direct deployment control"
   ],
   "target_audience": [
     "Enterprise IT",
@@ -38,7 +45,12 @@
     "Industrial IoT",
     "Utilities & Energy",
     "Smart Cities",
-    "Retail"
+    "Retail",
+    "Asset Tracking",
+    "EV Charging",
+    "Security",
+    "Agriculture",
+    "Smart Buildings"
   ],
   "differentiators": [
     "Operating history & enterprise track record (founded 2003, 6x Gartner Magic Quadrant)",
@@ -49,5 +61,5 @@
     "eSIM maturity (OmniSIM: 500 networks, 195 countries, automatic failover)"
   ],
   "status": "populated",
-  "source": "kore-content-writer skill (installed locally: /root/.claude/skills/kore-content-writer/references/*.md)"
+  "source": "kore-content-hub skill document (Brand Guidelines 01/01/2026, KORE Message House February 2026), provided directly by user, 2026-08-07 — supersedes the earlier kore-content-writer skill source"
 }

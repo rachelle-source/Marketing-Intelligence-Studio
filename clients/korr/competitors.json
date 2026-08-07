@@ -1,8 +1,18 @@
 {
-  "positioning_statement": null,
-  "competitors": [],
-  "rules": [],
-  "status": "no_source_data",
-  "source": null,
-  "notes": "No existing client information was found for this client anywhere in the repository, its git history, or installed content skills as of 2026-08-06. This file is a structural placeholder only \u2014 do not treat any field below as real brand/business data. Populate from the real client brief before use."
+  "positioning_statement": "KORR measures actual oxygen consumption breath-by-breath (direct measurement), where consumer wearables estimate VO2 max from heart-rate/pace models. The source material frames this as a factual distinction, not a competitive attack.",
+  "named_competitors": [],
+  "comparison_points": [
+    {
+      "type": "Consumer wearables (e.g. Garmin)",
+      "gap": "Estimate VO2 max from HR/pace models rather than measuring it directly",
+      "korr_distinction": "Breath-by-breath gas exchange analysis measures actual oxygen consumption — considered the gold standard for accuracy"
+    }
+  ],
+  "rules": [
+    "No named commercial competitors were provided in the source material — do not invent any",
+    "Frame the wearable-vs-lab distinction factually (measurement vs. estimation), never as a takedown of any specific wearable brand",
+    "Never use praise language (\"best\", \"amazing\", \"perfect\") when discussing KORR in user-generated/Reddit-style content"
+  ],
+  "status": "populated",
+  "source": "KORR_Reddit_Skill.pdf (\"Direct measurement vs estimation\" section), provided directly by user, 2026-08-07. No formal competitor list exists in the source — this file only captures the one comparison point actually made in the material."
 }

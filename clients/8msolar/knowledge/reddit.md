@@ -1,7 +1,5 @@
-# 8msolar — Reddit
+# 8MSolar — Reddit Research
 
-**Status: empty — no source data.** No existing client information was found for this client anywhere in the repository, its git history, or installed content skills as of 2026-08-06.
-
-## TODO
-
-- [ ] Populate this file with real reddit content once the actual client brief/brand material is provided.
+**Status: empty.** No Reddit research has been run for this client yet. This file is
+populated automatically the first time a Reddit Research run succeeds for `8msolar` (see
+`backend/reddit/report.py`).

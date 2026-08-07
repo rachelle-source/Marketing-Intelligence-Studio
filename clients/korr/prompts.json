@@ -1,9 +1,36 @@
 {
-  "voices": [],
-  "content_types": {},
+  "voices": [
+    {
+      "name": "Factual/reference",
+      "description": "Third-person, factual description of KORR's testing methodology and what differentiates it from consumer wearables. No hype, no superlatives beyond what the source material itself states (e.g. 'considered the gold standard').",
+      "best_for": "General KORR company content"
+    },
+    {
+      "name": "Reddit-safe mention (peer voice)",
+      "description": "When KORR is mentioned inside first-person, peer-voice content (e.g. someone describing a personal testing experience): mention once, then switch to pronouns (\"it\", \"the system\"); frame as \"what I used\", never as a recommendation; always acknowledge the tradeoff vs. wearable estimates.",
+      "best_for": "Any first-person/community content referencing a KORR test result"
+    }
+  ],
+  "content_types": {
+    "reddit_safe_mention": {
+      "pattern_example": "I got tested at a lab that uses breath-by-breath analysis (KORR system). It showed 52 ml/kg/min, while my Garmin had estimated 48. The difference makes sense since one measures and one estimates, but...",
+      "rules": [
+        "Mention the brand once, then use pronouns",
+        "Never repeat the brand name unnecessarily",
+        "Never use praise language (\"best\", \"amazing\", \"perfect\")",
+        "Never make a direct recommendation or coaching suggestion",
+        "Include uncertainty (e.g. \"I'm not sure how much it matters for training decisions\")",
+        "Never include links unless explicitly asked"
+      ]
+    }
+  },
   "cta_examples": [],
-  "quality_checklist": [],
-  "status": "no_source_data",
-  "source": null,
-  "notes": "No existing client information was found for this client anywhere in the repository, its git history, or installed content skills as of 2026-08-06. This file is a structural placeholder only \u2014 do not treat any field below as real brand/business data. Populate from the real client brief before use."
+  "quality_checklist": [
+    "No fabricated statistics",
+    "Mention pattern matches the approved Reddit-safe framing (single mention, then pronouns)",
+    "No praise/superlative language beyond what the source material itself states",
+    "Tone is factual and uncertain, not promotional"
+  ],
+  "status": "populated",
+  "source": "KORR_Reddit_Skill.pdf (\"Reddit-Safe KORR Framing\" section), provided directly by user, 2026-08-07"
 }

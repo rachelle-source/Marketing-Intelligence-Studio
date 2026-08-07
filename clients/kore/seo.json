@@ -43,6 +43,7 @@
       "IoT managed services",
       "trusted IoT provider",
       "IoT solutions provider",
+      "IoT track record",
       "mission-critical IoT",
       "enterprise-grade IoT"
     ],
@@ -73,9 +74,10 @@
     "asset_tracking": [
       "IoT asset tracking",
       "real-time asset tracking",
-      "connected asset management"
+      "connected asset management",
+      "RFID and IoT tracking"
     ],
-    "smart_cities": [
+    "smart_cities_infrastructure": [
       "smart city IoT",
       "smart infrastructure connectivity",
       "public sector IoT"
@@ -89,7 +91,8 @@
       "IoT connectivity platform",
       "API-driven IoT management",
       "IoT security",
-      "IoT device lifecycle management"
+      "IoT device lifecycle management",
+      "edge computing IoT"
     ],
     "long_tail_thought_leadership": [
       "how to scale IoT deployment globally",
@@ -105,11 +108,11 @@
     ]
   },
   "keywords_to_avoid": [
-    "\"wireless\" alone (too generic)",
-    "\"M2M\" (older term - use IoT unless audience is technical legacy)",
-    "competitor brand names (never in content)",
-    "\"connectivity solutions\" without a qualifier"
+    "\"wireless\" alone (too generic, low intent)",
+    "\"M2M\" (older term, use IoT unless audience is technical legacy)",
+    "competitor brand names (do not use in content)",
+    "vague terms like \"connectivity solutions\" without a qualifier"
   ],
   "status": "populated",
-  "source": "kore-content-writer skill (installed locally: /root/.claude/skills/kore-content-writer/references/*.md)"
+  "source": "kore-content-hub skill document (SEO Master Keyword List, last updated March 2026), provided directly by user, 2026-08-07 — supersedes the earlier kore-content-writer skill source"
 }

@@ -1,0 +1,9 @@
+{
+  "client_name": "Client Name Here",
+  "subreddits": ["subreddit1", "subreddit2"],
+  "keywords": ["keyword1", "keyword2"],
+  "brand_context": "Write 1-2 sentences here: who is this client, what do they do, what tone should replies take? Example: 'ADM Solar installs residential solar panels in Colorado. Tone: helpful, educational, never salesy. Never push the brand — just answer the question well.'",
+  "notify_email": "employee@keystonedigital.com",
+  "max_threads": 15,
+  "sort": "hot"
+}

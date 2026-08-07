@@ -50,10 +50,10 @@ Marketing-Intelligence-Studio/
 │   └── app.py                      entrypoint: python -m frontend.app
 │
 ├── clients/                     per-client intelligence (see clients/README.md)
-│   ├── kore/                      populated — KORE Wireless (kore-content-writer skill)
-│   ├── mcfie/                     populated — McFie Insurance (mcfie-content-hub skill)
-│   ├── korr/                      scaffold only — no source data
-│   ├── 8msolar/                   scaffold only — no source data
+│   ├── kore/                      populated — KORE Wireless (kore-content-hub skill doc)
+│   ├── mcfie/                     populated — McFie Insurance (mcfie-content-hub + insurance-binder-builder skills)
+│   ├── korr/                      populated — KORR Medical Technologies (KORR_Reddit_Skill.pdf)
+│   ├── 8msolar/                   populated — 8MSolar (8msolar-content-hub skill doc)
 │   ├── solartime/                 scaffold only — no source data
 │   ├── crinkletime/                scaffold only — no source data
 │   ├── unsexy_businessmen/         scaffold only — no source data
@@ -112,4 +112,4 @@ Marketing-Intelligence-Studio/
 - Markdown exporter → `backend/services/export_service.py`
 - `ClientService` (real client CRUD/sync into the database)
 - A styled, multi-panel desktop UI per the Design Pack (today's is plain)
-- Real client briefs for `korr`, `8msolar`, `solartime`, `crinkletime`, `unsexy_businessmen`
+- Real client briefs for `solartime`, `crinkletime`, `unsexy_businessmen`

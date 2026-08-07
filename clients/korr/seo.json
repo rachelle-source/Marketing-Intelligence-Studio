@@ -1,8 +1,38 @@
 {
-  "primary_keywords": [],
-  "keyword_clusters": {},
-  "keywords_to_avoid": [],
-  "status": "no_source_data",
-  "source": null,
-  "notes": "No existing client information was found for this client anywhere in the repository, its git history, or installed content skills as of 2026-08-06. This file is a structural placeholder only \u2014 do not treat any field below as real brand/business data. Populate from the real client brief before use."
+  "primary_keywords": [
+    "VO2 max testing",
+    "metabolic testing",
+    "breath-by-breath analysis",
+    "cardiorespiratory fitness",
+    "VO2 max lab test"
+  ],
+  "keyword_clusters": {
+    "vo2_max_health": [
+      "VO2 max longevity",
+      "VO2 max health marker",
+      "cardiorespiratory fitness mortality",
+      "VO2 max as performance predictor"
+    ],
+    "training": [
+      "Zone 2 training",
+      "high intensity vs Zone 2",
+      "aerobic capacity training",
+      "training response variability"
+    ],
+    "measurement": [
+      "VO2 max lab testing vs wearable",
+      "indirect calorimetry",
+      "ramp test protocol",
+      "metabolic testing accuracy"
+    ],
+    "data_interpretation": [
+      "heart rate power pace RPE",
+      "why VO2 max estimates differ from lab results"
+    ]
+  },
+  "keywords_to_avoid": [
+    "superlative/promotional framing (\"best\", \"gold standard\" used as marketing rather than a factual description already in the source material)"
+  ],
+  "status": "populated",
+  "source": "KORR_Reddit_Skill.pdf (\"Content Themes to Emphasize\" section), provided directly by user, 2026-08-07"
 }

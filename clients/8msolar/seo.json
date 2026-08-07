@@ -1,8 +1,90 @@
 {
-  "primary_keywords": [],
-  "keyword_clusters": {},
-  "keywords_to_avoid": [],
-  "status": "no_source_data",
-  "source": null,
-  "notes": "No existing client information was found for this client anywhere in the repository, its git history, or installed content skills as of 2026-08-06. This file is a structural placeholder only \u2014 do not treat any field below as real brand/business data. Populate from the real client brief before use."
+  "primary_keywords": [
+    "solar panels North Carolina",
+    "solar installer NC",
+    "solar panels Virginia",
+    "residential solar NC",
+    "8MSolar"
+  ],
+  "keyword_clusters": {
+    "getting_started": [
+      "how does solar power work",
+      "how do solar panels work",
+      "are solar panels worth it",
+      "pros and cons of solar energy",
+      "how much do solar panels cost",
+      "solar financing",
+      "30% tax credit solar",
+      "solar panel payback period",
+      "do solar panels save you money",
+      "does solar increase home value",
+      "how to choose the best solar installer in NC"
+    ],
+    "installation_technical": [
+      "electrical requirements for home solar",
+      "solar panel electrical requirements",
+      "solar permits and regulations",
+      "DIY vs professional solar installation",
+      "best orientation for solar panels",
+      "solar panel size",
+      "how many solar panels do I need",
+      "ground-mounted solar",
+      "solar panel efficiency",
+      "do solar panels work on cloudy days",
+      "do solar panels work in winter",
+      "are solar panels hurricane-proof"
+    ],
+    "ownership_maintenance": [
+      "solar panel maintenance",
+      "solar panel monitoring",
+      "how long do solar panels last",
+      "solar panel warranties",
+      "solar panel warranty transferable",
+      "sell a property with solar panels"
+    ],
+    "battery_backup": [
+      "home backup power",
+      "solar battery storage",
+      "how long do solar batteries last",
+      "off-grid vs on-grid solar",
+      "Tesla Powerwall review",
+      "Generac Pwrcell",
+      "Panasonic EverVolt"
+    ],
+    "nc_va_local": [
+      "net metering North Carolina",
+      "Virginia net metering",
+      "Duke Energy PowerPair",
+      "Duke Energy rate increase",
+      "North Carolina solar HOA laws",
+      "Virginia solar panel HOA laws",
+      "EnergizeNC solar for all"
+    ],
+    "ev_charging": [
+      "solar power and electric vehicles",
+      "charging EV with solar panels",
+      "cost of charging Tesla",
+      "Tesla installer NC"
+    ],
+    "commercial": [
+      "solar power for businesses",
+      "federal solar tax credits for businesses",
+      "commercial battery energy storage",
+      "solar for nonprofits North Carolina"
+    ],
+    "competitor_comparison": [
+      "8MSolar vs Southern Energy Management",
+      "8MSolar vs NC Solar Now",
+      "8MSolar vs Yes Solar Solutions",
+      "8MSolar vs Renu Energy Solutions",
+      "8MSolar vs Blue Raven Solar",
+      "best solar installer in NC"
+    ]
+  },
+  "keywords_to_avoid": [
+    "fabricated or unsourced statistics — only use figures from electricity-data.md / verified competitor articles",
+    "flowery language (\"yearn\", \"unearth\", \"illuminate\", \"leverage\", \"delve into\", \"seamlessly\", \"transformative\")"
+  ],
+  "status": "populated",
+  "source": "8msolar-content-hub skill document, provided directly by user, 2026-08-07"
 }

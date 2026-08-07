@@ -1,17 +1,31 @@
 {
-  "client_name": null,
+  "client_name": "KORR Medical Technologies",
   "slug": "korr",
-  "company": null,
+  "company": "KORR Medical Technologies",
   "website": null,
-  "industry": null,
+  "phone": null,
+  "industry": "Metabolic and VO2 max testing equipment",
   "founded": null,
   "headquarters": null,
-  "description": null,
+  "description": "Produces metabolic testing systems used in universities, performance labs, and clinical settings. Focused on direct measurement of oxygen consumption via breath-by-breath gas exchange analysis, as opposed to the estimate-based approach used by consumer wearables.",
   "mission": null,
-  "target_audience": [],
-  "key_verticals": [],
-  "differentiators": [],
-  "status": "no_source_data",
-  "source": null,
-  "notes": "No existing client information was found for this client anywhere in the repository, its git history, or installed content skills as of 2026-08-06. This file is a structural placeholder only \u2014 do not treat any field below as real brand/business data. Populate from the real client brief before use."
+  "key_differentiators": [
+    "Direct measurement (breath-by-breath gas exchange / indirect calorimetry) vs. estimation-based wearables",
+    "Considered the gold standard for VO2 max measurement accuracy",
+    "Used in universities, performance labs, and clinical settings — not a consumer product",
+    "Measures VO2 max, metabolic efficiency, and fuel use in a single test"
+  ],
+  "target_audience": [
+    "Universities and exercise physiology researchers",
+    "Sports performance labs",
+    "Clinical/metabolic testing settings",
+    "Endurance athletes seeking lab-grade testing (via labs that use KORR systems)"
+  ],
+  "key_verticals": [
+    "Sports science / exercise physiology",
+    "Clinical metabolic testing",
+    "University research"
+  ],
+  "status": "populated",
+  "source": "KORR_Reddit_Skill.pdf (the \"vo2max-reddit-growth\" skill's \"Who KORR Is\" / \"KORR VO2 Max Reference Framework\" sections), provided directly by user, 2026-08-07. Fields with no source support (website, phone, founding year, headquarters, mission statement) are left null rather than invented — this skill document describes a personal Reddit growth strategy that references KORR occasionally, not a KORR company brief, so company-level facts beyond what's stated are unverified."
 }

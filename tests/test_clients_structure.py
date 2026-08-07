@@ -28,7 +28,7 @@ KNOWLEDGE_FILES = [
     "reddit.md",
 ]
 
-POPULATED_SLUGS = {"kore", "mcfie"}
+POPULATED_SLUGS = {"kore", "mcfie", "korr", "8msolar"}
 
 
 def client_dirs() -> list[Path]:

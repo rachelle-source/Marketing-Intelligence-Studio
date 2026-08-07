@@ -1,17 +1,44 @@
 {
-  "client_name": null,
+  "client_name": "8MSolar",
   "slug": "8msolar",
-  "company": null,
+  "company": "8MSolar",
   "website": null,
-  "industry": null,
+  "phone": "(919) 948-6474",
+  "industry": "Residential and commercial solar installation",
   "founded": null,
-  "headquarters": null,
-  "description": null,
-  "mission": null,
-  "target_audience": [],
-  "key_verticals": [],
-  "differentiators": [],
-  "status": "no_source_data",
-  "source": null,
-  "notes": "No existing client information was found for this client anywhere in the repository, its git history, or installed content skills as of 2026-08-06. This file is a structural placeholder only \u2014 do not treat any field below as real brand/business data. Populate from the real client brief before use."
+  "headquarters": "Raleigh, NC",
+  "description": "The East Coast's #1 solar installer, serving homeowners and businesses in North Carolina and Virginia. Hardware-agnostic, with an in-house team of professional engineers (Chapter 87 Engineering Firm).",
+  "mission": "Inspire energy independence through clear, authoritative, homeowner-focused content that helps people make informed solar decisions.",
+  "scale": {
+    "kw_installed": "8,414 kW (2024, per Solar Power World Online)",
+    "warranty_years": "25-year warranties on many products"
+  },
+  "certifications": [
+    "NABCEP",
+    "NC Licensing Board for General Contractors",
+    "Chapter 87 Engineering Firm (in-house professional engineers)",
+    "REC ProTrust Installer",
+    "Tesla Powerwall Certified Premier Installer"
+  ],
+  "key_differentiators": [
+    "Hardware-agnostic — installs any brand of panel, not locked to one manufacturer",
+    "In-house team of professional engineers (Chapter 87 license) — most competitors lack this",
+    "25-year warranties on many products",
+    "REC ProTrust Installer and Tesla Powerwall Certified Premier Installer",
+    "Top panel brands carried: Qcells, REC Group, Silfab, Panasonic",
+    "#1 installer by volume in NC by third-party-verified kW installed"
+  ],
+  "target_audience": [
+    "Homeowners in North Carolina and Virginia — curious, cost-conscious, often skeptical",
+    "Business owners considering commercial solar",
+    "EV owners considering solar-plus-charging"
+  ],
+  "key_verticals": [
+    "Residential solar",
+    "Commercial solar",
+    "Battery storage / backup power",
+    "EV charging"
+  ],
+  "status": "populated",
+  "source": "8msolar-content-hub skill document, provided directly by user, 2026-08-07"
 }

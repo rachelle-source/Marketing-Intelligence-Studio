@@ -29,10 +29,10 @@ database.
 
 | Slug | Status | Source |
 |---|---|---|
-| `kore` | **Populated** | `kore-content-writer` skill (installed locally) — KORE Wireless brand voice, messaging, SEO, competitive positioning, content backlog |
-| `mcfie` | **Populated** | `mcfie-content-hub` skill (installed locally) — McFie Insurance voices, core concepts, phrases to avoid, social guide |
-| `korr` | Scaffold only | No source data found anywhere |
-| `8msolar` | Scaffold only | No source data found anywhere |
+| `kore` | **Populated** | `kore-content-hub` skill document (Brand Guidelines 01/01/2026, Message House Feb 2026) — provided directly by user, 2026-08-07 |
+| `mcfie` | **Populated** | `mcfie-content-hub` skill (installed locally) — McFie Insurance voices, core concepts, phrases to avoid, social guide — plus `insurance-binder-builder` skill document (educational lead-magnet binder format), provided directly by user, 2026-08-07 |
+| `korr` | **Populated** | `KORR_Reddit_Skill.pdf` (KORR Medical Technologies facts extracted from a personal Reddit-growth skill doc) — provided directly by user, 2026-08-07 |
+| `8msolar` | **Populated** | `8msolar-content-hub` skill document — provided directly by user, 2026-08-07 |
 | `solartime` | Scaffold only | No source data found anywhere |
 | `crinkletime` | Scaffold only | No source data found anywhere |
 | `unsexy_businessmen` | Scaffold only | No source data found anywhere |

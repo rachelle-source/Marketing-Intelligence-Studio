@@ -2,7 +2,7 @@
   "voices": [
     {
       "name": "Brand",
-      "description": "Professional, informative, authoritative. Confident but not arrogant.",
+      "description": "Professional, informative, authoritative. Confident but not arrogant. Formal and precise, but formal with warmth — not casual, not stiff.",
       "best_for": "All KORE content unless another format is specified"
     }
   ],
@@ -13,7 +13,7 @@
         "TITLE (SEO-optimized, 55-65 characters)",
         "SUBHEADLINE (optional, 1 sentence)",
         "INTRO (2-3 paragraphs: hook, bridge, thesis)",
-        "BODY (3-5 H2 sections, one key idea each)",
+        "BODY (3-5 H2 sections, one key idea each, reference a vertical or customer story where possible)",
         "CONCLUSION (1-2 paragraphs: takeaway + forward-looking statement)",
         "CTA (1-2 sentences, soft CTA)"
       ],
@@ -24,44 +24,38 @@
         "Flag internal links as [INTERNAL LINK: topic]",
         "Flag external citations as [EXTERNAL LINK: source type]"
       ]
-    },
-    "linkedin_post": {
-      "length_words": "150-300",
-      "tone": "Professional, insight-led",
-      "structure": [
-        "Hook line (stands alone, no 'We're excited to share...')",
-        "Value",
-        "CTA"
-      ]
-    },
-    "linkedin_carousel": {
-      "slides": "7-10",
-      "tone": "Educational, skimmable",
-      "structure": [
-        "Headline + 1-2 lines per slide"
-      ]
-    },
-    "x_twitter": {
-      "length": "1-2 tweets, <=280 chars each",
-      "tone": "Punchy, direct",
-      "structure": [
-        "Statement or question -> link"
-      ]
     }
   },
+  "deliverable_format": [
+    "1. Meta info block (title, meta description, primary keyword, target audience, word count)",
+    "2. Full content (formatted with H1, H2s, body)",
+    "3. SEO notes (keyword placement summary, internal/external link suggestions)",
+    "4. Editor notes (optional: flags for client review, suggested images, stat verification needed)"
+  ],
   "cta_examples": [
     "Ready to simplify your IoT deployment? Talk to a KORE expert."
+  ],
+  "gold_standard_writing_principles": [
+    "Lead with the problem, not the product — every top piece opens with a business, operational, or human challenge, not a KORE capability",
+    "Earn the positioning — expertise comes through in the quality of the explanation, not explicit self-promotion",
+    "Be the trusted advisor — when two options exist, explain both fairly; when an answer depends on context, provide a framework, not a cop-out",
+    "Ground future-looking content in evidence — trend pieces cite what happened before predicting what's next",
+    "Make every paragraph independently useful — structure for scanning, snippet capture, and re-use",
+    "Match technical depth to the audience — OEM/product teams get operational depth, general business audiences get outcome framing",
+    "Use narrative for healthcare and event content — the human story carries health content, the ecosystem story carries event content",
+    "Never oversell a new standard or technology — accuracy is the credibility play"
   ],
   "quality_checklist": [
     "Aligns with KORE voice and tone",
     "Reinforces at least one messaging pillar (Flexible, Global, Scalable, Proven)",
     "No unsubstantiated superlatives without a proof point",
-    "CTA included (blogs) or clear action (social)",
-    "For blogs: primary keyword in title, intro, and conclusion",
-    "For blogs: meta description written (<=160 characters)",
-    "Cross-checked against 2026 content log for duplication",
-    "No competitor brand names unless explicitly a comparison piece"
+    "CTA included",
+    "Primary keyword in title, intro, and conclusion",
+    "Meta description written (<=160 characters)",
+    "Cross-checked against the content library log for duplication (see blog_topics.md)",
+    "No competitor brand names unless explicitly a comparison piece",
+    "Checked against the 8 Writing Principles above as a final pass"
   ],
   "status": "populated",
-  "source": "kore-content-writer skill (installed locally: /root/.claude/skills/kore-content-writer/references/*.md)"
+  "source": "kore-content-hub skill document (Content Creation Hub steps + Gold Standard Content reference), provided directly by user, 2026-08-07 — supersedes the earlier kore-content-writer skill source"
 }

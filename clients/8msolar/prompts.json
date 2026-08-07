@@ -1,9 +1,54 @@
 {
-  "voices": [],
-  "content_types": {},
-  "cta_examples": [],
-  "quality_checklist": [],
-  "status": "no_source_data",
-  "source": null,
-  "notes": "No existing client information was found for this client anywhere in the repository, its git history, or installed content skills as of 2026-08-06. This file is a structural placeholder only \u2014 do not treat any field below as real brand/business data. Populate from the real client brief before use."
+  "voices": [
+    {
+      "name": "Brand",
+      "description": "A knowledgeable, friendly energy professional explaining solar to a homeowner across a kitchen table: confident, plain-spoken, empathetic, encouraging. Conversational but professional — never stuffy, never dumbed-down.",
+      "best_for": "All 8MSolar content unless another format is specified"
+    }
+  ],
+  "content_types": {
+    "blog": {
+      "reading_level": "8th-10th grade",
+      "structure": [
+        "Introduction (200-300 words) — hook, why it matters, preview",
+        "Key Points (100-150 words, 4-6 bullets)",
+        "Direct Answer (first H2, 200-300 words) — answer the keyword question early",
+        "Background Sections (2-4 subheadings, 500-700 words total)",
+        "Education Section (1 subheading, 100-200 words) — the layer competitors miss, never promotional",
+        "Conclusion (100-200 words, contextual heading, not titled 'Conclusion') — recap + CTA + phone number"
+      ],
+      "rules": [
+        "No fabricated statistics — only numbers from references/electricity-data.md or verified competitor articles",
+        "Active voice, plain language; swap flowery words per the word-choice table",
+        "8MSolar mentioned naturally in intro/conclusion only — not promotional mid-article",
+        "Always ground advice in NC/VA context (Duke Energy, local incentives, climate)",
+        "Vary paragraph length; bullets for lists of 3+, not 1-2"
+      ]
+    },
+    "competitor_comparison": {
+      "structure": [
+        "Intro: frame as a fair comparison, not a takedown",
+        "Direct Answer: give the verdict upfront",
+        "Company profiles: brief, factual, respectful",
+        "Differentiator sections: engineering, warranties, equipment, commercial track record",
+        "'Questions to Ask' section: empowers the reader",
+        "FAQ: address specific objections",
+        "Conclusion: warm, action-oriented, low pressure"
+      ]
+    }
+  },
+  "cta_examples": [
+    "If you're ready to explore solar for your home, the team at 8MSolar is here to walk you through the process — from your first question to your first day of solar power. Give us a call at (919) 948-6474 or reach out online to get started.",
+    "Give us a call at (919) 948-6474 — our engineers can tell you exactly how many panels your roof needs and what your bill would look like in year one."
+  ],
+  "quality_checklist": [
+    "Reading level 8th-10th grade, active voice",
+    "No fabricated stats — every number sourced",
+    "Local NC/VA angle present (Duke Energy, incentives, climate)",
+    "8MSolar mentioned only in intro/conclusion, not mid-article",
+    "CTA includes phone number (919) 948-6474",
+    "Checked against existing content inventory to avoid duplicating a covered topic without a fresh angle"
+  ],
+  "status": "populated",
+  "source": "8msolar-content-hub skill document, provided directly by user, 2026-08-07"
 }

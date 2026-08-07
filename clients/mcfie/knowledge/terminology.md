@@ -58,3 +58,21 @@ term only when whole life isn't yet affordable or practical.
 
 Not recommended by McFie for most clients — these shift risk to the policyholder and lack
 the guarantees of participating whole life.
+
+## Additional terminology (from `insurance-binder-builder` skill document, provided directly by user, 2026-08-07)
+
+- **Base Premium** — the required premium to keep a policy in force.
+- **Cash Surrender Value** — the amount available if a policy is canceled outright.
+- **Non-Direct Recognition** — the policy loan interest rate is set equal to or close to
+  the dividend rate, so borrowing has minimal net drag on growth.
+- **Direct Recognition** — the dividend rate may be reduced on the borrowed portion of
+  cash value while a loan is outstanding.
+- **High Cash Value Design** — maximizes the Paid-Up Additions rider and minimizes the
+  base death benefit relative to premium, for faster cash value accumulation (efficient
+  for banking-style strategies). Contrast with **Traditional Design** — higher death
+  benefit, lower premium relative to coverage, slower cash value growth, protection-
+  focused.
+- **Timeline expectations** — years 1-7: foundation-building, fees/mortality charges
+  highest; years 7-15: cash value typically surpasses total premiums paid, dividends grow
+  more significant; years 15+: mature policy, potential to reduce/eliminate premium
+  payments, full banking functionality available.

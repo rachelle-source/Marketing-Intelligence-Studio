@@ -1,7 +1,5 @@
-# korr — Research
+# KORR Medical Technologies — Research
 
-**Status: empty — no source data.** No existing client information was found for this client anywhere in the repository, its git history, or installed content skills as of 2026-08-06.
-
-## TODO
-
-- [ ] Populate this file with real research content once the actual client brief/brand material is provided.
+**Status: no primary research (surveys, interviews, published studies) beyond the
+population-level VO2 max/mortality association mentioned in `products.md`.** No live
+Reddit Research has been run for this client yet — see `reddit.md`.

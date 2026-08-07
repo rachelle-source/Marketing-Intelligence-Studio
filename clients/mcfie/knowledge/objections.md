@@ -56,3 +56,52 @@ works when the policy is designed correctly.
 - Never disparage named financial personalities — address ideas, not people.
 - Never recommend IUL/VUL/UL as "good alternatives" — acknowledge they exist, explain
   tradeoffs honestly.
+
+## Additional objections (from `insurance-binder-builder` skill document, provided directly by user, 2026-08-07)
+
+These extend the set above — more advanced than the original content-hub objections list,
+written for structured lead-magnet/binder content rather than blog posts, but the
+underlying rules (never promise returns, never attack, always give the "not appropriate
+for" side) apply everywhere.
+
+### "It takes too long to build cash value"
+
+Set proper expectations rather than dispute the premise: foundation phase (years 1-7,
+fees/mortality charges highest, cash value may be below total premiums paid), growth
+phase (years 7-15, cash value typically surpasses premiums paid, dividends more
+significant), maturity phase (15+ years, full banking functionality). Death benefit
+protection is immediate from day one regardless of phase.
+
+### "I'm too old / too young to start"
+
+Both directions have a fair answer: for older prospects, rates only increase with age and
+health can change, so even 10-15 years of growth has value. For younger prospects, time is
+the biggest advantage — lower premiums lock in while young and healthy, ahead of decades
+of compound growth.
+
+### "I don't understand it"
+
+Acknowledge the complexity honestly rather than minimizing it — that's why education
+matters. Reduce to the core cycle: pay premium -> cash value grows (guaranteed + dividends)
+-> borrow against cash value when needed -> cash value keeps growing -> repay on your own
+terms -> money available again.
+
+### "I can't afford it"
+
+Explore what "afford" actually means (current discretionary spending, whether current
+expenses build any asset) before assuming the answer is no. A ~10% of income guideline is
+a reasonable starting point, and policies can start smaller and scale up over time.
+
+### "It's only for wealthy people"
+
+Historically, participating whole life was a mainstream middle-class savings vehicle, not
+an exclusive product — access starts in the $100-200/month range. Higher earners use it
+because it works, not because it's exclusive to them.
+
+### Policy loan interest, reframed
+
+Loan interest (typically 4-8%) goes to the insurance company, but cash value continues
+earning its own guaranteed growth and dividends at the same time — so the net cost can be
+minimal, especially compared to alternatives like credit cards (18-25%), personal loans
+(10-15%), or a HELOC (7-10%). Frame it as competing with banks, not "eliminating"
+interest.
