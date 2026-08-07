@@ -39,6 +39,15 @@
     "Battery storage / backup power",
     "EV charging"
   ],
+  "reddit_config": {
+    "subreddits": ["solar", "SolarDIY", "NorthCarolina"],
+    "tone": "Helpful and educational, never salesy; answer the homeowner's actual question first, mention 8MSolar only when it's genuinely relevant (e.g. NC/VA-specific rebate or installer questions)",
+    "notify_email": "marketing@keystonedigitalservices.com",
+    "max_threads": 15,
+    "sort": "hot",
+    "status": "generated_default",
+    "notes": "Subreddits and tone are RedditConfigGenerator's starting recommendation based on 8MSolar's market (residential/commercial solar in NC/VA) — not confirmed against live Reddit activity or client input. Edit this section (not reddit-tool/clients/8msolar.json directly) to change what the Reddit tool uses; the generator rebuilds that file from here."
+  },
   "status": "populated",
   "source": "8msolar-content-hub skill document, provided directly by user, 2026-08-07"
 }

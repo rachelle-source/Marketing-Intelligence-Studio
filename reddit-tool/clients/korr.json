@@ -1,0 +1,20 @@
+{
+  "client_name": "KORR Medical Technologies",
+  "subreddits": [
+    "AdvancedRunning",
+    "triathlon",
+    "Zwift",
+    "longevity"
+  ],
+  "keywords": [
+    "VO2 max testing",
+    "metabolic testing",
+    "breath-by-breath analysis",
+    "cardiorespiratory fitness",
+    "VO2 max lab test"
+  ],
+  "brand_context": "KORR Medical Technologies. Produces metabolic testing systems used in universities, performance labs, and clinical settings. Focused on direct measurement of oxygen consumption via breath-by-breath gas exchange analysis, as opposed to the estimate-based approach used by consumer wearables. Tone: Reddit-safe mention (peer voice) \u2014 mention KORR once, then switch to pronouns; frame as personal testing experience, never a recommendation; always acknowledge the tradeoff vs. wearable estimates (see prompts.json content_types.reddit_safe_mention).",
+  "notify_email": "marketing@keystonedigitalservices.com",
+  "max_threads": 15,
+  "sort": "hot"
+}

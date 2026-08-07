@@ -27,6 +27,10 @@ Marketing-Intelligence-Studio/
 │   │   ├── analysis.py             dedup, spam filter, relevance ranking (select_top_posts),
 │   │   │                           extraction (build_analyzed_post)
 │   │   ├── client_context.py       loads a client's profile/seo/competitors.json
+│   │   ├── config_generator.py     RedditConfigGenerator: derives reddit-tool/clients/<slug>.json
+│   │   │                           from a client's profile.json (reddit_config section) + seo.json
+│   │   │                           — see reddit-tool/README.md; run via
+│   │   │                           `python -m backend.reddit.config_generator [slug]`
 │   │   ├── report.py               renders RedditResearchReport -> Markdown; saves/appends
 │   │   │                           into clients/<slug>/knowledge/reddit.md
 │   │   ├── service.py              RedditService (ResearchService impl); per-query failure
@@ -72,11 +76,17 @@ Marketing-Intelligence-Studio/
 │           ├── research.md
 │           └── reddit.md
 │
+├── reddit-tool/                  Vendored reddit-reply-tool project (scrapes threads, scores
+│                                 reply-worthiness, drafts/lints brand-voice replies). Its own
+│                                 independent project with its own tests/README — not rewritten.
+│                                 clients/<slug>.json here is generated, not hand-edited — see
+│                                 backend/reddit/config_generator.py.
 ├── logs/                        app.log (rotating), git-ignored except .gitkeep
 ├── output/                      NotebookLM-ready exports, one folder per client
 │                                 (<slug>/<date>_<topic>.md), git-ignored except .gitkeep
 ├── data/                        SQLite database file, git-ignored except .gitkeep
-├── tests/                       pytest suite for the backend foundation
+├── tests/                       pytest suite for the backend foundation (pytest.ini scopes a
+│                                 bare `pytest` here so it doesn't collide with reddit-tool/tests/)
 ├── docs/                        product/design/engineering doc packs
 │   ├── 00_foundation.md
 │   ├── 01_design.md

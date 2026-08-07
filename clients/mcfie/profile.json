@@ -30,6 +30,15 @@
     "Research-mode viewers, IBC-curious, Dave Ramsey skeptics (YouTube)",
     "Subscribers and warm leads (email)"
   ],
+  "reddit_config": {
+    "subreddits": ["personalfinance", "InfiniteBanking", "financialindependence"],
+    "tone": "Educational, independent, no pressure; acknowledge tradeoffs and address ideas rather than people (never attack Dave Ramsey, Suze Orman, or other financial personalities by name)",
+    "notify_email": "marketing@keystonedigitalservices.com",
+    "max_threads": 15,
+    "sort": "hot",
+    "status": "generated_default",
+    "notes": "Subreddits are RedditConfigGenerator's starting recommendation, informed by knowledge/reddit.md's note that McFie's audience includes 'Dave Ramsey skeptics' and IBC-curious researchers — not confirmed against live Reddit activity or client input. Edit this section (not reddit-tool/clients/mcfie.json directly) to change what the Reddit tool uses; the generator rebuilds that file from here."
+  },
   "status": "populated",
   "source": "mcfie-content-hub skill (installed locally: /root/.claude/skills/mcfie-content-hub/references/*.md)"
 }

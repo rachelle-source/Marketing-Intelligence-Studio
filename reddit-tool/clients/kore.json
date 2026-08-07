@@ -1,0 +1,20 @@
+{
+  "client_name": "KORE Wireless",
+  "subreddits": [
+    "IOT",
+    "embedded",
+    "networking"
+  ],
+  "keywords": [
+    "IoT connectivity",
+    "enterprise IoT",
+    "global IoT connectivity",
+    "IoT connectivity management",
+    "managed IoT connectivity",
+    "IoT deployment"
+  ],
+  "brand_context": "KORE Wireless. Global IoT connectivity leader providing enterprise IoT connectivity infrastructure built for real-world deployment at global scale. Tone: Factual, third-person, non-promotional; lead with useful technical context, mention KORE only when directly relevant to the question asked.",
+  "notify_email": "marketing@keystonedigitalservices.com",
+  "max_threads": 15,
+  "sort": "hot"
+}
