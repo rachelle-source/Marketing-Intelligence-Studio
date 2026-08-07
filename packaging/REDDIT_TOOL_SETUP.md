@@ -197,4 +197,4 @@ should always review Reddit replies before they go out under anyone's account.
   may simply have no relevant activity right now; try again later, or check
   `reddit-tool/clients/<name>.json`'s `subreddits` list is right for that client.
 
-Anything else, contact whoever set this up for your team.
+Anything else, contact **Alex Skinner** — the designated fallback for anything this guide doesn't cover.

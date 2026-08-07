@@ -60,7 +60,9 @@ Python or backend access just to get a config.
 3. One person should set up Reddit API credentials once (see the
    instructions) and can share the resulting `.env` file with the rest of
    the team so everyone doesn't need to create their own Reddit app.
-4. If your team will use the Reddit Reply Tool too, point them to
+4. **Alex Skinner is the designated fallback contact** for anything a
+   teammate gets stuck on that these guides don't cover.
+5. If your team will use the Reddit Reply Tool too, point them to
    `reddit-tool/REDDIT_TOOL_SETUP.md` inside the zip — that setup is
    per-person (each teammate needs their own Python + Claude Code install).
 

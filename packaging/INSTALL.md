@@ -112,4 +112,4 @@ file, rename the copy to `.env` (exactly that, no `.example` on the end),
 and fill in the two values in Notepad/TextEdit before you send the folder
 out.
 
-Anything else, contact whoever set this up for your team.
+Anything else, contact **Alex Skinner** — the designated fallback for anything this guide doesn't cover.
