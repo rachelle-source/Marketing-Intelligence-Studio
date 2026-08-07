@@ -12,7 +12,7 @@
   "key_differentiators": [
     "Direct measurement (breath-by-breath gas exchange / indirect calorimetry) vs. estimation-based wearables",
     "Considered the gold standard for VO2 max measurement accuracy",
-    "Used in universities, performance labs, and clinical settings — not a consumer product",
+    "Used in universities, performance labs, and clinical settings \u2014 not a consumer product",
     "Measures VO2 max, metabolic efficiency, and fuel use in a single test"
   ],
   "target_audience": [
@@ -27,14 +27,18 @@
     "University research"
   ],
   "reddit_config": {
-    "subreddits": ["AdvancedRunning", "triathlon", "Zwift", "longevity"],
-    "tone": "Reddit-safe mention (peer voice) — mention KORR once, then switch to pronouns; frame as personal testing experience, never a recommendation; always acknowledge the tradeoff vs. wearable estimates (see prompts.json content_types.reddit_safe_mention)",
-    "notify_email": "marketing@keystonedigitalservices.com",
+    "subreddits": [
+      "AdvancedRunning",
+      "triathlon",
+      "Zwift",
+      "longevity"
+    ],
+    "tone": "Reddit-safe mention (peer voice) \u2014 mention KORR once, then switch to pronouns; frame as personal testing experience, never a recommendation; always acknowledge the tradeoff vs. wearable estimates (see prompts.json content_types.reddit_safe_mention)",
     "max_threads": 15,
     "sort": "hot",
     "status": "generated_default",
-    "notes": "Subreddits are RedditConfigGenerator's starting recommendation based on KORR's audience (endurance athletes, VO2 max / longevity interest) — not confirmed against live Reddit activity or client input. Tone is sourced from the Reddit-safe framing already documented in prompts.json. Edit this section (not reddit-tool/clients/korr.json directly) to change what the Reddit tool uses; the generator rebuilds that file from here."
+    "notes": "Subreddits are RedditConfigGenerator's starting recommendation based on KORR's audience (endurance athletes, VO2 max / longevity interest) \u2014 not confirmed against live Reddit activity or client input. Tone is sourced from the Reddit-safe framing already documented in prompts.json. Edit this section (not reddit-tool/clients/korr.json directly) to change what the Reddit tool uses; the generator rebuilds that file from here."
   },
   "status": "populated",
-  "source": "KORR_Reddit_Skill.pdf (the \"vo2max-reddit-growth\" skill's \"Who KORR Is\" / \"KORR VO2 Max Reference Framework\" sections), provided directly by user, 2026-08-07. Fields with no source support (website, phone, founding year, headquarters, mission statement) are left null rather than invented — this skill document describes a personal Reddit growth strategy that references KORR occasionally, not a KORR company brief, so company-level facts beyond what's stated are unverified."
+  "source": "KORR_Reddit_Skill.pdf (the \"vo2max-reddit-growth\" skill's \"Who KORR Is\" / \"KORR VO2 Max Reference Framework\" sections), provided directly by user, 2026-08-07. Fields with no source support (website, phone, founding year, headquarters, mission statement) are left null rather than invented \u2014 this skill document describes a personal Reddit growth strategy that references KORR occasionally, not a KORR company brief, so company-level facts beyond what's stated are unverified."
 }

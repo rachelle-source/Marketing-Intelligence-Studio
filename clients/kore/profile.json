@@ -19,8 +19,8 @@
   },
   "description": "Global IoT connectivity leader providing enterprise IoT connectivity infrastructure built for real-world deployment at global scale.",
   "mission": "Connected devices make the world smarter, and we help businesses achieve this. By simplifying IoT adoption, we earn customers' trust to deploy, manage, and scale solutions, solving complex challenges and enhancing financial and operational performance.",
-  "who_kore_is": "A pioneer, leader, and trusted advisor delivering mission-critical IoT solutions and services — empowering organizations of all sizes to improve operational and business results by simplifying the complexity of IoT.",
-  "core_promise": "Enterprise IoT connectivity infrastructure — built for real-world deployment at global scale.",
+  "who_kore_is": "A pioneer, leader, and trusted advisor delivering mission-critical IoT solutions and services \u2014 empowering organizations of all sizes to improve operational and business results by simplifying the complexity of IoT.",
+  "core_promise": "Enterprise IoT connectivity infrastructure \u2014 built for real-world deployment at global scale.",
   "brand_values": [
     "Innovation",
     "One Team",
@@ -30,9 +30,9 @@
     "Supportive and Collaborative"
   ],
   "brand_vision_pillars": [
-    "Simplified IoT Deployments — turn-key capabilities to launch and manage IoT solutions",
-    "Accelerated Time to Market — carrier-agnostic validation, certification, and app configuration",
-    "Maximize ROI — editable provisioning and management for direct deployment control"
+    "Simplified IoT Deployments \u2014 turn-key capabilities to launch and manage IoT solutions",
+    "Accelerated Time to Market \u2014 carrier-agnostic validation, certification, and app configuration",
+    "Maximize ROI \u2014 editable provisioning and management for direct deployment control"
   ],
   "target_audience": [
     "Enterprise IT",
@@ -61,14 +61,17 @@
     "eSIM maturity (OmniSIM: 500 networks, 195 countries, automatic failover)"
   ],
   "reddit_config": {
-    "subreddits": ["IOT", "embedded", "networking"],
+    "subreddits": [
+      "IOT",
+      "embedded",
+      "networking"
+    ],
     "tone": "Factual, third-person, non-promotional; lead with useful technical context, mention KORE only when directly relevant to the question asked",
-    "notify_email": "marketing@keystonedigitalservices.com",
     "max_threads": 15,
     "sort": "hot",
     "status": "generated_default",
-    "notes": "Subreddits and tone are RedditConfigGenerator's starting recommendation based on KORE's industry (enterprise IoT connectivity) — not confirmed against live Reddit activity or client input. Edit this section (not reddit-tool/clients/kore.json directly) to change what the Reddit tool uses; the generator rebuilds that file from here."
+    "notes": "Subreddits and tone are RedditConfigGenerator's starting recommendation based on KORE's industry (enterprise IoT connectivity) \u2014 not confirmed against live Reddit activity or client input. Edit this section (not reddit-tool/clients/kore.json directly) to change what the Reddit tool uses; the generator rebuilds that file from here."
   },
   "status": "populated",
-  "source": "kore-content-hub skill document (Brand Guidelines 01/01/2026, KORE Message House February 2026), provided directly by user, 2026-08-07 — supersedes the earlier kore-content-writer skill source"
+  "source": "kore-content-hub skill document (Brand Guidelines 01/01/2026, KORE Message House February 2026), provided directly by user, 2026-08-07 \u2014 supersedes the earlier kore-content-writer skill source"
 }

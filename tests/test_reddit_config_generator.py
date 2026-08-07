@@ -6,8 +6,8 @@ import pytest
 
 from backend.reddit.config_generator import (
     DEFAULT_MAX_THREADS,
-    DEFAULT_NOTIFY_EMAIL,
     DEFAULT_SORT,
+    NOTIFY_EMAIL_ENV_VAR,
     ConfigGenerationError,
     generate_all,
     generate_client_config,
@@ -65,7 +65,8 @@ def test_generate_client_config_uses_reddit_config_and_seo(tmp_path: Path) -> No
     assert config["sort"] == "new"
 
 
-def test_defaults_apply_when_reddit_config_omits_them(tmp_path: Path) -> None:
+def test_defaults_apply_when_reddit_config_omits_them(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setenv(NOTIFY_EMAIL_ENV_VAR, "someone@example.com")
     profile = {
         "client_name": "Acme Corp",
         "description": "Acme Corp sells anvils to coyotes.",
@@ -75,12 +76,55 @@ def test_defaults_apply_when_reddit_config_omits_them(tmp_path: Path) -> None:
 
     config = generate_client_config(tmp_path, "acme")
 
-    assert config["notify_email"] == DEFAULT_NOTIFY_EMAIL
+    assert config["notify_email"] == "someone@example.com"
     assert config["max_threads"] == DEFAULT_MAX_THREADS
     assert config["sort"] == DEFAULT_SORT
 
 
-def test_company_field_used_when_client_name_missing(tmp_path: Path) -> None:
+def test_notify_email_comes_from_environment_not_client_knowledge(tmp_path: Path, monkeypatch) -> None:
+    """notify_email is per-person (whoever runs the generator), not a client fact —
+    it must come from REDDIT_NOTIFY_EMAIL, not get baked into clients/ knowledge."""
+    monkeypatch.setenv(NOTIFY_EMAIL_ENV_VAR, "person-a@example.com")
+    profile = {
+        "client_name": "Acme Corp",
+        "description": "Acme.",
+        "reddit_config": {"subreddits": ["acmefans"]},
+    }
+    make_client(tmp_path, "acme", profile=profile, seo=FULL_SEO)
+    assert generate_client_config(tmp_path, "acme")["notify_email"] == "person-a@example.com"
+
+    monkeypatch.setenv(NOTIFY_EMAIL_ENV_VAR, "person-b@example.com")
+    assert generate_client_config(tmp_path, "acme")["notify_email"] == "person-b@example.com"
+
+
+def test_explicit_reddit_config_notify_email_overrides_environment(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setenv(NOTIFY_EMAIL_ENV_VAR, "person@example.com")
+    profile = {
+        "client_name": "Acme Corp",
+        "description": "Acme.",
+        "reddit_config": {"subreddits": ["acmefans"], "notify_email": "client-specific@example.com"},
+    }
+    make_client(tmp_path, "acme", profile=profile, seo=FULL_SEO)
+
+    config = generate_client_config(tmp_path, "acme")
+    assert config["notify_email"] == "client-specific@example.com"
+
+
+def test_missing_notify_email_env_var_raises(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.delenv(NOTIFY_EMAIL_ENV_VAR, raising=False)
+    profile = {
+        "client_name": "Acme Corp",
+        "description": "Acme.",
+        "reddit_config": {"subreddits": ["acmefans"]},
+    }
+    make_client(tmp_path, "acme", profile=profile, seo=FULL_SEO)
+
+    with pytest.raises(ConfigGenerationError, match=NOTIFY_EMAIL_ENV_VAR):
+        generate_client_config(tmp_path, "acme")
+
+
+def test_company_field_used_when_client_name_missing(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setenv(NOTIFY_EMAIL_ENV_VAR, "someone@example.com")
     profile = {
         "company": "Acme Corp",
         "core_promise": "Anvils, fast.",
@@ -123,7 +167,8 @@ def test_generate_raises_for_missing_required_knowledge(
         generate_client_config(tmp_path, "acme")
 
 
-def test_brand_context_falls_back_to_client_name_alone(tmp_path: Path) -> None:
+def test_brand_context_falls_back_to_client_name_alone(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setenv(NOTIFY_EMAIL_ENV_VAR, "someone@example.com")
     profile = {"client_name": "Acme", "reddit_config": {"subreddits": ["x"]}}
     make_client(tmp_path, "acme", profile=profile, seo=FULL_SEO)
 
@@ -189,8 +234,9 @@ def reddit_tool_load_config():
 
 @pytest.mark.parametrize("slug", ["kore", "korr", "8msolar", "mcfie"])
 def test_generated_config_passes_real_reddit_tool_validation(
-    tmp_path: Path, reddit_tool_load_config, slug: str
+    tmp_path: Path, reddit_tool_load_config, slug: str, monkeypatch
 ) -> None:
+    monkeypatch.setenv(NOTIFY_EMAIL_ENV_VAR, "test-runner@example.com")
     clients_dir = REPO_ROOT / "clients"
     out_path = write_client_config(clients_dir, slug, tmp_path)
 

@@ -16,5 +16,10 @@ output/*
 data/*.db
 !data/.gitkeep
 
+# Generated per-installation (embeds the person's own REDDIT_NOTIFY_EMAIL) —
+# see backend/reddit/config_generator.py. The template stays tracked.
+reddit-tool/clients/*.json
+!reddit-tool/clients/_template.json
+
 # OS
 .DS_Store

@@ -58,12 +58,20 @@ that knowledge stays the single source of truth:
 - `keywords` comes from `seo.json`'s `primary_keywords`.
 - `client_name` and `brand_context` come from `profile.json`'s `client_name`/`company`,
   `description`/`core_promise`, and `reddit_config.tone`.
-- `subreddits`, `tone`, `notify_email`, `max_threads`, and `sort` come from a
-  `reddit_config` object added to `profile.json` — these are operational choices (which
-  communities to watch, who gets notified), not marketing facts, so they can't be derived
-  from anything else already in `clients/`. `status: "generated_default"` on that object
-  means the subreddit list is the generator's topic-relevance starting point, not a
-  client-confirmed decision — review it before relying on live Reddit research.
+- `subreddits`, `tone`, `max_threads`, and `sort` come from a `reddit_config` object added
+  to `profile.json` — these are operational choices (which communities to watch, how many
+  threads, which sort), not marketing facts, so they can't be derived from anything else
+  already in `clients/`. `status: "generated_default"` on that object means the subreddit
+  list is the generator's topic-relevance starting point, not a client-confirmed decision —
+  review it before relying on live Reddit research.
+- `notify_email` is **not** stored in `clients/` knowledge at all — it's whoever is
+  running the Reddit tool, which is a different person on every install of this app, not a
+  fact about the client. It comes from the `REDDIT_NOTIFY_EMAIL` environment variable (set
+  it in your own `.env`, same as the Reddit API credentials); each person generating
+  configs gets their own address. A client's `profile.json` can set
+  `reddit_config.notify_email` explicitly if one client genuinely needs a fixed override,
+  but that's an exception, not the default path.
 
-To (re)generate every client's config: `python -m backend.reddit.config_generator`.
+To (re)generate every client's config: `python -m backend.reddit.config_generator`
+(requires `REDDIT_NOTIFY_EMAIL` set in `.env` first).
 To generate one: `python -m backend.reddit.config_generator <slug>`.

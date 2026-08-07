@@ -10,16 +10,32 @@ from the client knowledge already stored in ``clients/<slug>/profile.json`` and
 ``seo.json``, so the client knowledge stays the single source of truth.
 
 ``profile.json`` carries a ``reddit_config`` section (subreddits, tone,
-notify_email, max_threads, sort) for the fields that aren't marketing facts
-about the client and can't be derived from anything else already in
-``clients/`` — see any populated client's profile.json for the convention.
+max_threads, sort) for the fields that aren't marketing facts about the
+client and can't be derived from anything else already in ``clients/`` —
+see any populated client's profile.json for the convention.
+
+``notify_email`` is deliberately NOT one of those client-knowledge fields:
+it's whoever is running the Reddit tool on their own machine, which is a
+different person for every install of this app, not a fact about the
+client. It's read from the ``REDDIT_NOTIFY_EMAIL`` environment variable
+(set it in ``.env``, same as the Reddit API credentials) so each person
+generating configs gets their own address rather than everyone sharing
+whatever address happened to be hardcoded here. A client's ``profile.json``
+can still set ``reddit_config.notify_email`` explicitly to override this
+for that one client, but that's an intentional per-client exception, not
+the default path.
 """
 
 from __future__ import annotations
 
 import json
 import logging
+import os
 from pathlib import Path
+
+import backend.config  # noqa: F401 - importing it loads .env into os.environ,
+# so REDDIT_NOTIFY_EMAIL below is populated even if this module is used
+# without going through backend.core.bootstrap first.
 
 logger = logging.getLogger(__name__)
 
@@ -36,7 +52,7 @@ VALID_SORTS = {"hot", "new", "top"}
 
 DEFAULT_MAX_THREADS = 15
 DEFAULT_SORT = "hot"
-DEFAULT_NOTIFY_EMAIL = "marketing@keystonedigitalservices.com"
+NOTIFY_EMAIL_ENV_VAR = "REDDIT_NOTIFY_EMAIL"
 
 
 class ConfigGenerationError(Exception):
@@ -107,12 +123,20 @@ def generate_client_config(clients_dir: Path, client_id: str) -> dict:
             f"'{client_id}' profile.json has no description/core_promise to build brand_context from"
         )
 
+    notify_email = reddit_config.get("notify_email") or os.environ.get(NOTIFY_EMAIL_ENV_VAR)
+    if not notify_email:
+        raise ConfigGenerationError(
+            f"No {NOTIFY_EMAIL_ENV_VAR} set for '{client_id}' — add "
+            f"{NOTIFY_EMAIL_ENV_VAR}=you@example.com to .env (this is per-person, not "
+            "per-client, so it isn't stored in clients/ knowledge)"
+        )
+
     config = {
         "client_name": client_name,
         "subreddits": subreddits,
         "keywords": keywords,
         "brand_context": brand_context,
-        "notify_email": reddit_config.get("notify_email") or DEFAULT_NOTIFY_EMAIL,
+        "notify_email": notify_email,
         "max_threads": reddit_config.get("max_threads") or DEFAULT_MAX_THREADS,
         "sort": sort,
     }
