@@ -38,18 +38,31 @@ for the most recent successful run.)
 
 Each zip is self-contained: the app itself, a `clients` folder with the
 built-in client intelligence data, a `.env.example` file for Reddit API
-credentials, and the install instructions. Nothing else needs to be
-downloaded or installed — the Python interpreter and all dependencies
-(including PRAW and tkinter) are bundled inside the app.
+credentials, the install instructions, and a `reddit-tool` folder (see
+below). Nothing else needs to be downloaded or installed to run the main
+app — the Python interpreter and all dependencies (including PRAW and
+tkinter) are bundled inside it.
+
+The `reddit-tool` folder is different: it's a separate, more advanced tool
+(Reddit scraping + AI-drafted replies) that does need Python and
+[Claude Code](https://claude.ai/code) installed separately, plus a paid
+Claude plan. `reddit-tool/REDDIT_TOOL_SETUP.md` walks through that setup
+from scratch. Its `clients/*.json` configs are pre-generated from the same
+client intelligence as the main app, with a placeholder `notify_email`
+each person replaces with their own (Step 5 of that guide) — nobody needs
+Python or backend access just to get a config.
 
 ## Distributing to your team
 
 1. Send the appropriate zip (Windows or macOS) to each team member, or share
    this whole `Release` folder via a shared drive.
-2. Point them to `HOW TO INSTALL.txt` for setup.
+2. Point them to `HOW TO INSTALL.txt` for the main app's setup.
 3. One person should set up Reddit API credentials once (see the
    instructions) and can share the resulting `.env` file with the rest of
    the team so everyone doesn't need to create their own Reddit app.
+4. If your team will use the Reddit Reply Tool too, point them to
+   `reddit-tool/REDDIT_TOOL_SETUP.md` inside the zip — that setup is
+   per-person (each teammate needs their own Python + Claude Code install).
 
 ## Rebuilding this release
 

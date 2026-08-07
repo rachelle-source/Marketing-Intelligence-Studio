@@ -56,6 +56,24 @@ jobs:
           cp .env.example "$PKG/.env.example"
           cp packaging/INSTALL.md "$PKG/HOW TO INSTALL.txt"
 
+      - name: Add reddit-tool with ready-to-use client configs
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.platform }}" = "windows" ]; then
+            PKG="package/Marketing Intelligence Studio"
+          else
+            PKG="package"
+          fi
+          cp -r reddit-tool "$PKG/reddit-tool"
+          find "$PKG/reddit-tool" -name "__pycache__" -o -name ".pytest_cache" | xargs -r rm -rf
+          # Pre-generate each real client's reddit-tool config so the team doesn't
+          # need Python/backend access just to get started — notify_email is a
+          # placeholder each person replaces with their own (see REDDIT_TOOL_SETUP.md).
+          REDDIT_NOTIFY_EMAIL="REPLACE-WITH-YOUR-EMAIL@example.com" \
+            python -m backend.reddit.config_generator --reddit-tool-clients-dir "$PKG/reddit-tool/clients"
+          cp packaging/REDDIT_TOOL_SETUP.md "$PKG/reddit-tool/REDDIT_TOOL_SETUP.md"
+
       - name: Zip package (Windows)
         if: matrix.platform == 'windows'
         shell: pwsh

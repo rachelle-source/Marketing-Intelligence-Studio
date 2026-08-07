@@ -80,7 +80,11 @@ Marketing-Intelligence-Studio/
 │                                 reply-worthiness, drafts/lints brand-voice replies). Its own
 │                                 independent project with its own tests/README — not rewritten.
 │                                 clients/<slug>.json here is generated, not hand-edited — see
-│                                 backend/reddit/config_generator.py.
+│                                 backend/reddit/config_generator.py. Runs as a Claude Code skill
+│                                 (needs Python + a paid Claude Code plan, unlike the main app) —
+│                                 install_skill.py automates the skill install (no manual path
+│                                 editing); see reddit-tool/README.md and, in a built Release zip,
+│                                 reddit-tool/REDDIT_TOOL_SETUP.md for the full from-scratch guide.
 ├── logs/                        app.log (rotating), git-ignored except .gitkeep
 ├── output/                      NotebookLM-ready exports, one folder per client
 │                                 (<slug>/<date>_<topic>.md), git-ignored except .gitkeep
@@ -96,7 +100,10 @@ Marketing-Intelligence-Studio/
 │   ├── pyinstaller.spec             build spec: bundles the interpreter + all deps
 │   ├── build_windows.bat            local build script (run on Windows)
 │   ├── build_macos.sh               local build script (run on macOS)
-│   ├── INSTALL.md                   non-technical install/setup guide
+│   ├── INSTALL.md                   non-technical install/setup guide (main app)
+│   ├── REDDIT_TOOL_SETUP.md         from-scratch setup guide for reddit-tool (Python +
+│   │                                 Claude Code + skill install); copied into each Release
+│   │                                 zip's reddit-tool/ folder by build-release.yml
 │   └── assets/
 │       ├── icon.ico                  Windows .exe icon
 │       └── icon.icns                 macOS .app icon

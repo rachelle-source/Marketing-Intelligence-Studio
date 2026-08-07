@@ -15,7 +15,8 @@ file. No Reddit API key required.
 ## Requirements
 
 - Python 3.8+
-- [Claude Code](https://claude.ai/code)
+- [Claude Code](https://claude.ai/code) — requires a Claude Pro, Max, Team, or Enterprise
+  plan (or pre-paid Console credits). A free claude.ai account is not enough.
 
 ## Setup
 
@@ -36,6 +37,19 @@ pip install -r requirements.txt
 
 ### 3. Install the Claude Code skill
 
+Run, from inside this `reddit-tool` folder:
+
+```bash
+python install_skill.py
+```
+
+This copies `skill/SKILL.md` to `~/.claude/skills/reddit-tool/SKILL.md` and replaces
+every `REDDIT_TOOL_PATH` placeholder with this folder's real path automatically — no
+manual copy-pasting a path into a text file.
+
+<details>
+<summary>Manual install (if you'd rather not run a script)</summary>
+
 **Mac/Linux:**
 ```bash
 mkdir -p ~/.claude/skills/reddit-tool
@@ -49,25 +63,9 @@ Copy-Item "skill\SKILL.md" "$env:USERPROFILE\.claude\skills\reddit-tool\SKILL.md
 ```
 
 Then open the installed `SKILL.md` and replace every instance of `REDDIT_TOOL_PATH`
-with your actual project path (no trailing slash).
-
-Mac/Linux example — replace:
-```
-REDDIT_TOOL_PATH
-```
-with:
-```
-/Users/yourname/Projects/reddit-tool
-```
-
-Windows example — replace:
-```
-REDDIT_TOOL_PATH
-```
-with:
-```
-C:\Users\yourname\Projects\reddit-tool
-```
+with your actual project path (no trailing slash), e.g. `/Users/yourname/Projects/reddit-tool`
+or `C:\Users\yourname\Projects\reddit-tool`.
+</details>
 
 ### 4. Add your first client
 
